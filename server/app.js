@@ -14,35 +14,37 @@ app.use(morgan("combined")); // Log all requests to the console
 app.use(express.static("../client/build")); // Needed for serving production build of React
 
 /**** Database ****/
-const kittenDB = require("./kitten_db")(mongoose);
+const suggestionDB = require("./suggestion_db")(mongoose);
 
 /**** Routes ****/
-app.get("/api/kittens", async (req, res) => {
-  const kittens = await kittenDB.getKittens();
-  res.json(kittens);
+
+//For getting the suggestions
+app.get("/api/suggestions", async (req, res) => {
+  const suggestion = await suggestionDB.getSuggestions();
+  res.json(suggestion);
 });
 
-app.get("/api/kittens/:id", async (req, res) => {
+//for getting a specific suggestion based on the id
+app.get("/api/suggestions/:id", async (req, res) => {
   let id = req.params.id;
-  const kitten = await kittenDB.getKitten(id);
-  res.json(kitten);
+  const suggestion = await suggestionDB.getSuggestion(id);
+  res.json(suggestion);
 });
 
-app.post("/api/kittens", async (req, res) => {
-  let kitten = {
-    name: req.body.name,
-    hobbies: [], // Empty hobby array
+app.post("/api/suggestions", async (req, res) => {
+  let suggestion = {
+    content: req.body.content,
   };
-  const newKitten = await kittenDB.createKitten(kitten);
-  res.json(newKitten);
+  const newSuggestion = await suggestionDB.createSuggestion(suggestion);
+  res.json(newSuggestion);
 });
 
-app.post("/api/kittens/:id/hobbies", async (req, res) => {
-  const id = req.params.id;
-  const hobby = req.body.hobby;
-  const updatedKitten = await kittenDB.addHobby(id, hobby);
-  res.json(updatedKitten);
-});
+// app.post("/api/suggestions/:id/signatures", async (req, res) => {
+//   const id = req.params.id;
+//   const signature = req.body.signature;
+//   const updatedSuggestion = await suggestionDB.addHobby(id, signature);
+//   res.json(updatedSuggestion);
+// });
 
 // "Redirect" all get requests (except for the routes specified above) to React's entry point (index.html) to be handled by Reach router
 // It's important to specify this route as the very last one to prevent overriding all of the other routes
@@ -51,12 +53,12 @@ app.get("*", (req, res) =>
 );
 
 /**** Start ****/
-const url = process.env.MONGO_URL || "mongodb://localhost/kitten_db";
+const url = process.env.MONGO_URL || "mongodb://localhost/suggestions_db";
 mongoose
   .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(async () => {
-    await kittenDB.bootstrap(); // Fill in test data if needed.
+    await suggestionDB.fillIfEmpty(); // Fill in test data if needed.
     await app.listen(port); // Start the API
-    console.log(`Kitten API running on port ${port}!`);
+    console.log(`Suggestion API running on port ${port}!`);
   })
   .catch((error) => console.error(error));
