@@ -39,6 +39,7 @@ class AddSignature extends Component {
             id="name"
             onChange={this.handleChange}
             value={this.state.name}
+            color="red"
           />
           <button className="btn yellow darken-2">Sign with signature</button>
         </form>

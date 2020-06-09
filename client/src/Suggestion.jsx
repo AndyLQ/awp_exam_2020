@@ -22,7 +22,7 @@ class Suggestion extends Component {
               {suggestion.signatures.map((signature) => (
                 <li className="collection-item" key={signature.name}>
                   {signature.name}
-                  <span className="right">Date posted: {signature.date}</span>
+                  <span className="right">{signature.date}</span>
                 </li>
               ))}
             </ul>
