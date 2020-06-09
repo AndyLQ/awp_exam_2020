@@ -3,6 +3,7 @@ import { Link } from "@reach/router";
 
 class Navbar extends Component {
   state = {};
+
   render() {
     return (
       <nav className="nav-wrapper yellow darken-3">

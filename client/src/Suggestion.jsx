@@ -10,7 +10,14 @@ class Suggestion extends Component {
 
   render() {
     const suggestion = this.props.getSuggestion(this.props.id);
-    let content = <h3 className="container">Loading Suggestion...</h3>;
+    let content = (
+      <div className="container">
+        <br />
+        <div class="progress">
+          <div class="indeterminate yellow darken-2"></div>
+        </div>
+      </div>
+    );
     if (suggestion) {
       content = (
         <>
@@ -32,7 +39,9 @@ class Suggestion extends Component {
             <br />
 
             <Link to="/">
-              <button className="btn red darken-2">Go Back</button>
+              <button className="btn red darken-2">
+                <i class="material-icons left">arrow_back</i>Go Back
+              </button>
             </Link>
           </div>
         </>

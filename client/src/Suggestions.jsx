@@ -6,8 +6,10 @@ class Suggestions extends Component {
     const suggestions = this.props.suggestions.map((suggestion) => (
       <li className="collection-item" key={suggestion._id}>
         <Link to={`/suggestions/${suggestion._id}`}>{suggestion.content}</Link>
+        <span> - {suggestion.date}</span>
         <span className="right">
-          Signatures: {suggestion.signatures.length}
+          <span>Signatures: </span>
+          {suggestion.signatures.length}
         </span>
       </li>
     ));
@@ -15,7 +17,7 @@ class Suggestions extends Component {
       <>
         <div className="container">
           <h3>Suggestions</h3>
-          <ol className="collection">{suggestions}</ol>
+          <ol className="collection ">{suggestions}</ol>
         </div>
       </>
     );

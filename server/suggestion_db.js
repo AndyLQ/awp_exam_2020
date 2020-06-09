@@ -2,6 +2,7 @@ class Db {
   constructor(mongoose) {
     const suggestionSchema = new mongoose.Schema({
       content: String,
+      date: String,
       signatures: [
         {
           name: String,
@@ -58,6 +59,7 @@ class Db {
 
       let suggestion1 = new this.suggestionModel({
         content: "We should get 5G in Aarhus",
+        date: "9. April 2020",
         signatures: [
           { name: "Andy", date: "10. April 2020" },
           { name: "Martin", date: "13. December 2019" },
@@ -67,12 +69,14 @@ class Db {
 
       let suggestion2 = new this.suggestionModel({
         content: "Justice for George Floyd",
+        date: "20. February 2020",
         signatures: [{ name: "John", date: "28. February 2020" }],
       });
       promises.push(suggestion2.save());
 
       let suggestion3 = new this.suggestionModel({
         content: "End hunger pls",
+        date: "13. August 2019",
         signatures: [
           { name: "Andy", date: "13. January 2020" },
           { name: "Sarah", date: "2. September 2019" },

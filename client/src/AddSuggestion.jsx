@@ -11,7 +11,7 @@ class AddSuggestions extends Component {
   }
 
   handleSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     if (this.state.content === "") {
       return;
     } else {
@@ -38,6 +38,7 @@ class AddSuggestions extends Component {
             onChange={this.handleChange}
           />
           <button className="btn yellow darken-2">
+            <i class="material-icons left">done</i>
             Submit your suggestion
           </button>
         </form>
