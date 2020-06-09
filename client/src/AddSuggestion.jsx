@@ -11,7 +11,7 @@ class AddSuggestions extends Component {
   }
 
   handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (this.state.content === "") {
       return;
     } else {
