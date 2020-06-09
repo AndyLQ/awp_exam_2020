@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
+import AddSignature from "./AddSignature";
 
 class Suggestion extends Component {
+  addSignature = (newSignature) => {
+    console.log("This is the new signature: ", newSignature);
+  };
+
   render() {
-    console.log(this.props.getSuggestion(this.props.id));
     const suggestion = this.props.getSuggestion(this.props.id);
-    let content = <p>Loading</p>;
+    let content = <h3 className="container">Loading Suggestion...</h3>;
     if (suggestion) {
       content = (
         <>
@@ -21,8 +25,12 @@ class Suggestion extends Component {
               ))}
             </ul>
 
+            <AddSignature addSignature={this.addSignature} />
+
+            <br />
+
             <Link to="/">
-              <button className="btn yellow darken-2">Back</button>
+              <button className="btn red darken-2">Go Back</button>
             </Link>
           </div>
         </>

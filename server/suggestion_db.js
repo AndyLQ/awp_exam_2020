@@ -42,6 +42,14 @@ class Db {
     }
   }
 
+  async addSignature(suggestionID, newSignature) {
+    //Gets the post by id
+    const suggestion = await this.getSuggestion(suggestionID);
+
+    suggestion.signatures.push(newSignature);
+    return await suggestion.save();
+  }
+
   async fillIfEmpty() {
     let l = (await this.getSuggestions()).length;
 
@@ -51,19 +59,19 @@ class Db {
 
       let suggestion1 = new this.suggestionModel({
         content: "We should get 5G in Aarhus",
-        signatures: [{ name: "Andy" }, { name: "Kasia" }],
+        signatures: [{ name: "Andy" }, { name: "Martin" }],
       });
       promises.push(suggestion1.save());
 
       let suggestion2 = new this.suggestionModel({
         content: "Justice for George Floyd",
-        signatures: [{ name: "Andy" }],
+        signatures: [{ name: "John" }],
       });
       promises.push(suggestion2.save());
 
       let suggestion3 = new this.suggestionModel({
         content: "End hunger pls",
-        signatures: [{ name: "Andy" }, { name: "Kasia" }, { name: "Luka" }],
+        signatures: [{ name: "Andy" }, { name: "Sarah" }, { name: "Lena" }],
       });
       promises.push(suggestion3.save());
 

@@ -40,11 +40,33 @@ class App extends Component {
     // Find the relevant suggestion by id
     return this.state.suggestions.find((k) => k._id === id);
   }
-  addSuggestion = (suggestion) => {
-    let suggestionList = [...this.state.suggestions, suggestion];
-    this.setState({ suggestions: suggestionList });
-    console.log("The new state is: ", this.state, this.props);
-  };
+
+  addSuggestion(suggestion) {
+    alert("Welp, nothing happened, Try again later...");
+
+    const url = `${this.API_URL}/suggestions`;
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        suggestion: suggestion,
+      }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+
+        console.log("Result of posting a new question:");
+        console.log(json.suggestion.suggestion);
+        this.getData();
+      });
+
+    // let suggestionList = [...this.state.suggestions, suggestion];
+    // this.setState({ suggestions: suggestionList });
+    // console.log("The new state is: ", this.state, this.props);
+  }
 
   render() {
     return (

@@ -39,12 +39,21 @@ app.post("/api/suggestions", async (req, res) => {
   res.json(newSuggestion);
 });
 
-// app.post("/api/suggestions/:id/signatures", async (req, res) => {
-//   const id = req.params.id;
-//   const signature = req.body.signature;
-//   const updatedSuggestion = await suggestionDB.addHobby(id, signature);
-//   res.json(updatedSuggestion);
-// });
+app.post("/api/suggestions/:id/signatures", async (req, res) => {
+  const id = req.params.id;
+  const signature = req.body.name;
+
+  //Get todays date
+  const today = new Date().getDate();
+  const thisMonth = new Date().getMonth();
+  const thisYear = new Date().getFullYear();
+  const postDate = today + "/" + thisMonth + "/" + thisYear;
+  console.log(postDate);
+  const newSignature = { name: signature, date: postDate };
+  console.log("The signature you just passed is: ", newSignature);
+  const updatedSuggestion = await suggestionDB.addSignature(id, newSignature);
+  res.json(updatedSuggestion);
+});
 
 // "Redirect" all get requests (except for the routes specified above) to React's entry point (index.html) to be handled by Reach router
 // It's important to specify this route as the very last one to prevent overriding all of the other routes
