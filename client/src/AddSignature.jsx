@@ -10,7 +10,7 @@ class AddSignature extends Component {
   }
 
   handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (this.state.name === "") {
       return;
     } else {

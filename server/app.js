@@ -34,7 +34,7 @@ app.get("/api/suggestions/:id", async (req, res) => {
 //Add new suggestion
 app.post("/api/suggestions", async (req, res) => {
   let suggestion = {
-    content: req.body.content,
+    content: req.body.content.content,
   };
   const newSuggestion = await suggestionDB.createSuggestion(suggestion);
   res.json(newSuggestion);
