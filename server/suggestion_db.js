@@ -59,19 +59,26 @@ class Db {
 
       let suggestion1 = new this.suggestionModel({
         content: "We should get 5G in Aarhus",
-        signatures: [{ name: "Andy" }, { name: "Martin" }],
+        signatures: [
+          { name: "Andy", date: "10/4/2020" },
+          { name: "Martin", date: "13/12/2019" },
+        ],
       });
       promises.push(suggestion1.save());
 
       let suggestion2 = new this.suggestionModel({
         content: "Justice for George Floyd",
-        signatures: [{ name: "John" }],
+        signatures: [{ name: "John", date: "28/2/2020" }],
       });
       promises.push(suggestion2.save());
 
       let suggestion3 = new this.suggestionModel({
         content: "End hunger pls",
-        signatures: [{ name: "Andy" }, { name: "Sarah" }, { name: "Lena" }],
+        signatures: [
+          { name: "Andy", date: "13/1/2020" },
+          { name: "Sarah", date: "2/9/2019" },
+          { name: "Lena", date: "1/1/2020" },
+        ],
       });
       promises.push(suggestion3.save());
 

@@ -5,7 +5,7 @@ class Suggestions extends Component {
   render() {
     const suggestions = this.props.suggestions.map((suggestion) => (
       <li className="collection-item" key={suggestion._id}>
-        <Link to={`/suggestion/${suggestion._id}`}>{suggestion.content}</Link>
+        <Link to={`/suggestions/${suggestion._id}`}>{suggestion.content}</Link>
         <span className="right">
           Signatures: {suggestion.signatures.length}
         </span>

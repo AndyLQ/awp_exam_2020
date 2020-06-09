@@ -5,6 +5,8 @@ import AddSignature from "./AddSignature";
 class Suggestion extends Component {
   addSignature = (newSignature) => {
     console.log("This is the new signature: ", newSignature);
+    const suggestionId = this.props.getSuggestion(this.props.id);
+    this.props.addSignature(newSignature, suggestionId._id);
   };
 
   render() {
@@ -21,6 +23,7 @@ class Suggestion extends Component {
               {suggestion.signatures.map((signature) => (
                 <li className="collection-item" key={signature.name}>
                   {signature.name}
+                  <span className="right">Date posted: {signature.date}</span>
                 </li>
               ))}
             </ul>

@@ -31,6 +31,7 @@ app.get("/api/suggestions/:id", async (req, res) => {
   res.json(suggestion);
 });
 
+//Add new suggestion
 app.post("/api/suggestions", async (req, res) => {
   let suggestion = {
     content: req.body.content,
@@ -39,9 +40,10 @@ app.post("/api/suggestions", async (req, res) => {
   res.json(newSuggestion);
 });
 
+//Add new Signature to a suggestion
 app.post("/api/suggestions/:id/signatures", async (req, res) => {
   const id = req.params.id;
-  const signature = req.body.name;
+  const signature = req.body.newSignature.name;
 
   //Get todays date
   const today = new Date().getDate();
@@ -49,8 +51,8 @@ app.post("/api/suggestions/:id/signatures", async (req, res) => {
   const thisYear = new Date().getFullYear();
   const postDate = today + "/" + thisMonth + "/" + thisYear;
   console.log(postDate);
+
   const newSignature = { name: signature, date: postDate };
-  console.log("The signature you just passed is: ", newSignature);
   const updatedSuggestion = await suggestionDB.addSignature(id, newSignature);
   res.json(updatedSuggestion);
 });

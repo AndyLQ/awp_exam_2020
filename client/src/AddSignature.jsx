@@ -14,8 +14,11 @@ class AddSignature extends Component {
     if (this.state.name === "") {
       return;
     } else {
-      // console.log(this.state);
       this.props.addSignature(this.state);
+      this.setState({
+        name: "",
+      });
+      e.target.value = "";
     }
   };
 
@@ -35,6 +38,7 @@ class AddSignature extends Component {
             placeholder="Sign with your username"
             id="name"
             onChange={this.handleChange}
+            value={this.state.name}
           />
           <button className="btn yellow darken-2">Sign with signature</button>
         </form>

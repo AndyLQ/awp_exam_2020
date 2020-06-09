@@ -21,9 +21,7 @@ class App extends Component {
   // Get everything from the API when the component mounts
   //Then log it in the console
   componentDidMount() {
-    this.getSuggestions().then(() =>
-      console.log("Suggestions gotten from API and put into app state!")
-    );
+    this.getSuggestions();
   }
 
   async getSuggestions() {
@@ -41,27 +39,40 @@ class App extends Component {
     return this.state.suggestions.find((k) => k._id === id);
   }
 
-  addSuggestion(suggestion) {
-    alert("Welp, nothing happened, Try again later...");
-
-    const url = `${this.API_URL}/suggestions`;
-    fetch(url, {
+  async addSignature(newSignature, suggestionId) {
+    // await fetch(`${this.API_URL}/suggestions/${suggestionId}`, {
+    await fetch(`/api/suggestions/${suggestionId}/signatures`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        suggestion: suggestion,
+        newSignature: newSignature,
       }),
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(json);
+    });
+  }
 
-        console.log("Result of posting a new question:");
-        console.log(json.suggestion.suggestion);
-        this.getData();
-      });
+  addSuggestion(suggestion) {
+    alert("Welp, nothing happened, Try again later...");
+
+    // const url = `${this.API_URL}/suggestions`;
+    // fetch(url, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     suggestion: suggestion,
+    //   }),
+    // })
+    //   .then((response) => response.json())
+    //   .then((json) => {
+    //     console.log(json);
+
+    //     console.log("Result of posting a new question:");
+    //     console.log(json.suggestion.suggestion);
+    //     this.getData();
+    //   });
 
     // let suggestionList = [...this.state.suggestions, suggestion];
     // this.setState({ suggestions: suggestionList });
@@ -75,8 +86,9 @@ class App extends Component {
         <Router>
           <Suggestions path="/" suggestions={this.state.suggestions} />
           <Suggestion
-            path="/suggestion/:id"
+            path="/suggestions/:id"
             getSuggestion={(id) => this.getSuggestion(id)}
+            addSignature={this.addSignature}
           />
           <AddSuggestion
             path="/add-suggestion"
