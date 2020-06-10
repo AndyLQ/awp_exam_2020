@@ -26,6 +26,12 @@ class App extends Component {
     this.getSuggestions();
   }
 
+  componentDidUpdate() {
+    this.isLoggedContent()
+      ? console.log("You are logged in")
+      : console.log("You are not logged in");
+  }
+
   async login(username, password) {
     try {
       const resp = await this.Auth.login(username, password);
@@ -47,10 +53,8 @@ class App extends Component {
 
   isLoggedContent() {
     if (this.Auth.loggedIn()) {
-      console.log("Logged in");
       return true;
     } else {
-      console.log("Not logged in");
       return false;
     }
   }

@@ -6,13 +6,25 @@ class AddSignature extends Component {
     name: "",
   };
 
-  Capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-
   handleSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
+    const searchName = this.props.data.filter(
+      (name) => name.name === this.state.name
+    );
+
     if (this.state.name === "") {
+      return;
+    } else if (this.state.name !== localStorage.getItem("username")) {
+      alert("You have to sign in with your username");
+      this.setState({
+        name: "",
+      });
+      return;
+    } else if (searchName.length !== 0) {
+      alert("You have already signed this");
+      this.setState({
+        name: "",
+      });
       return;
     } else {
       this.props.addSignature(this.state);
@@ -20,14 +32,14 @@ class AddSignature extends Component {
         name: "",
       });
       alert("Thanks for signing the suggestion");
-      navigate("/");
+      window.location = "/";
       e.target.value = "";
     }
   };
 
   handleChange = (e) => {
     this.setState({
-      [e.target.id]: this.Capitalize(e.target.value),
+      [e.target.id]: e.target.value,
     });
   };
 
