@@ -19,11 +19,6 @@ class Login extends Component {
     });
   };
 
-  handleLogout = () => {
-    console.log("Trying to logout");
-    this.props.logout();
-  };
-
   render() {
     return (
       <div className="container">
@@ -45,9 +40,6 @@ class Login extends Component {
             <i class="material-icons left">fingerprint</i>Login
           </button>
         </form>
-        <button className="btn" onClick={this.handleLogout}>
-          Log out
-        </button>
       </div>
     );
   }

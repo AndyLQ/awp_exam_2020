@@ -21,6 +21,12 @@ class Navbar extends Component {
             <li>
               <Link to="/login">Login</Link>
             </li>
+
+            <li onClick={() => this.props.logout()}>
+              <a>Logout</a>
+            </li>
+
+            {/* {this.Auth.loggedIn() ? <li>Logged in</li> : <li>NOT logged in</li>} */}
           </ul>
         </div>
       </nav>

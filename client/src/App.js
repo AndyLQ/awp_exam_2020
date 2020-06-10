@@ -38,11 +38,24 @@ class App extends Component {
   }
 
   logout() {
-    console.log("Trying to logout 2");
-    console.log(this.Auth);
+    // this.state({
+    //   userCredentials: {
+    //     username: "",
+    //     password: "",
+    //   },
+    // });
+    console.log("Trying to logout (App.js)");
     this.Auth.logout();
     navigate("/");
     // alert("Logged Out");
+  }
+
+  isLoggedContent() {
+    if (this.Auth.loggedIn()) {
+      console.log("yes");
+    } else {
+      console.log("no");
+    }
   }
 
   async getSuggestions() {
@@ -86,7 +99,14 @@ class App extends Component {
   render() {
     return (
       <>
-        <Navbar></Navbar>
+        {/* {this.Auth.loggedIn() ? <p>Logged in</p> : <p>NOT logged in</p>} */}
+        <button
+          onClick={() => this.logout()}
+          // onClick={this.isLoggedContent}
+        >
+          Log Out
+        </button>
+        <Navbar logout={() => this.logout()}></Navbar>
         <Router>
           <Suggestions path="/" suggestions={this.state.suggestions} />
           <Suggestion
@@ -101,7 +121,6 @@ class App extends Component {
           <Login
             path="/login"
             login={(username, password) => this.login(username, password)}
-            logout={this.logout}
           />
         </Router>
       </>

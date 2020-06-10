@@ -12,6 +12,7 @@ class AuthService {
       }),
     });
     let json = await res.json();
+
     if ([401, 404].includes(parseInt(res.status))) {
       console.log("Did not manage to login");
       throw Error(json.msg);
@@ -53,8 +54,8 @@ class AuthService {
 
   logout() {
     console.log("Logged out");
-    // localStorage.removeItem("token");
-    // localStorage.removeItem("username");
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
   }
 
   fetch(url, options) {
