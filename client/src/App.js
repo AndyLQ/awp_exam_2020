@@ -47,14 +47,16 @@ class App extends Component {
     console.log("Trying to logout (App.js)");
     this.Auth.logout();
     navigate("/");
-    // alert("Logged Out");
+    this.getSuggestions();
   }
 
   isLoggedContent() {
     if (this.Auth.loggedIn()) {
-      console.log("yes");
+      console.log("Logged in");
+      return true;
     } else {
-      console.log("no");
+      console.log("Not logged in");
+      return false;
     }
   }
 
@@ -99,14 +101,12 @@ class App extends Component {
   render() {
     return (
       <>
-        {/* {this.Auth.loggedIn() ? <p>Logged in</p> : <p>NOT logged in</p>} */}
-        <button
-          onClick={() => this.logout()}
-          // onClick={this.isLoggedContent}
+        <Navbar
+          logout={() => this.logout()}
+          isloggedContent={this.isLoggedContent()}
         >
-          Log Out
-        </button>
-        <Navbar logout={() => this.logout()}></Navbar>
+          {" "}
+        </Navbar>
         <Router>
           <Suggestions path="/" suggestions={this.state.suggestions} />
           <Suggestion

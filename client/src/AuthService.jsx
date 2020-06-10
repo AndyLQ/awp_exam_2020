@@ -48,7 +48,7 @@ class AuthService {
   }
 
   getToken() {
-    console.log("Getting token from localStorage");
+    // console.log("Getting token from localStorage");
     return localStorage.getItem("token");
   }
 

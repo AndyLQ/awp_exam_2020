@@ -5,6 +5,7 @@ class Navbar extends Component {
   state = {};
 
   render() {
+    console.log(this.props.isloggedContent);
     return (
       <nav className="nav-wrapper yellow darken-3">
         <div className="container">
@@ -15,18 +16,22 @@ class Navbar extends Component {
             <li>
               <Link to="/">Suggestions</Link>
             </li>
-            <li>
-              <Link to="/add-suggestion">Add Suggestion</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
 
-            <li onClick={() => this.props.logout()}>
-              <a>Logout</a>
-            </li>
+            {this.props.isloggedContent ? (
+              <li>
+                <Link to="/add-suggestion">Add Suggestion</Link>
+              </li>
+            ) : null}
 
-            {/* {this.Auth.loggedIn() ? <li>Logged in</li> : <li>NOT logged in</li>} */}
+            {this.props.isloggedContent ? (
+              <li onClick={() => this.props.logout()}>
+                <a hrsef="#">Logout</a>
+              </li>
+            ) : (
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+            )}
           </ul>
         </div>
       </nav>
