@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { navigate } from "@reach/router";
+// import { navigate } from "@reach/router";
 
 class AddSuggestions extends Component {
   state = {
@@ -11,12 +11,13 @@ class AddSuggestions extends Component {
   }
 
   handleSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     if (this.state.content === "") {
       return;
     } else {
       this.props.addSuggestion(this.state);
-      navigate("/");
+      // navigate("/"); //DOES NOT UPDATE BROWER
+      window.location = "/"; //DOES UPDATE BROWSER
     }
   };
 
@@ -38,6 +39,7 @@ class AddSuggestions extends Component {
             onChange={this.handleChange}
           />
           <button className="btn yellow darken-2">
+            <i class="material-icons left">done</i>
             Submit your suggestion
           </button>
         </form>

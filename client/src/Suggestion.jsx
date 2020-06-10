@@ -10,34 +10,72 @@ class Suggestion extends Component {
 
   render() {
     const suggestion = this.props.getSuggestion(this.props.id);
-    let content = <h3 className="container">Loading Suggestion...</h3>;
+    let content = (
+      <div className="container">
+        <br />
+        <div class="progress">
+          <div class="indeterminate yellow darken-2"></div>
+        </div>
+      </div>
+    );
+
+    let signatures = (
+      <div>
+        <h5>Signatures:</h5>
+        <ul className="collection">
+          {suggestion.signatures.map((signature) => (
+            <li className="collection-item" key={signature.name}>
+              {signature.name}
+              <span className="right">{signature.date}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+
     if (suggestion) {
       content = (
         <>
           <div className="container">
             <h3>{suggestion.content}</h3>
-            <hr className="text-blue darken-1"></hr>
-            <h5>Signatures:</h5>
-            <ul className="collection">
-              {suggestion.signatures.map((signature) => (
-                <li className="collection-item" key={signature.name}>
-                  {signature.name}
-                  <span className="right">{signature.date}</span>
-                </li>
-              ))}
-            </ul>
+            <hr />
+            {suggestion.signatures.length !== 0 ? (
+              signatures
+            ) : (
+              <p>Be the first one to sign this suggestion!</p>
+            )}
 
-            <AddSignature addSignature={this.addSignature} />
-
+            {this.props.isloggedContent ? (
+              <AddSignature addSignature={this.addSignature} />
+            ) : (
+              <p>
+                <b>Login to sign this suggestion</b>
+              </p>
+            )}
             <br />
-
+            {this.props.isloggedContent ? null : (
+              <div>
+                <Link to="/login">
+                  <button className="btn yellow darken-2">
+                    <i class="material-icons left">arrow_forward</i>GO TO LOGIN
+                  </button>
+                </Link>
+                <br />
+                <br />
+              </div>
+            )}
             <Link to="/">
-              <button className="btn red darken-2">Go Back</button>
+              <button className="btn red darken-2">
+                <i class="material-icons left">arrow_back</i>GO BACK
+              </button>
             </Link>
           </div>
         </>
       );
     }
+    // suggestion.signatures.length == 0
+    //   ? console.log("Yes man")
+    //   : return content
     return content;
   }
 }
