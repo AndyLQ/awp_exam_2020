@@ -50,7 +50,7 @@ class AddSuggestions extends Component {
           />
           <input
             type="text"
-            placeholder="Please, tell me more!"
+            placeholder="Describe it for me!"
             id="body"
             onChange={this.handleChange}
           />
