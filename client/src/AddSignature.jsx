@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { navigate } from "@reach/router";
 
 class AddSignature extends Component {
   state = {

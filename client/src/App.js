@@ -93,7 +93,9 @@ class App extends Component {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
       body: JSON.stringify({
-        content: suggestion,
+        content: suggestion.content,
+        body: suggestion.body,
+        uploadUser: suggestion.uploadUser,
       }),
     });
   }

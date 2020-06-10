@@ -39,13 +39,18 @@ class Suggestion extends Component {
         <>
           <div className="container">
             <h3>{suggestion.content}</h3>
+            <h6>- {suggestion.body}</h6>
+            <br />
+            <h6 className="grey-text text-darken-2">
+              Uploaded by: {suggestion.uploadUser} - {suggestion.date}
+            </h6>
             <hr />
+            <br />
             {suggestion.signatures.length !== 0 ? (
               signatures
             ) : (
               <p>Be the first one to sign this suggestion!</p>
             )}
-
             {this.props.isloggedContent ? (
               <AddSignature
                 addSignature={this.addSignature}

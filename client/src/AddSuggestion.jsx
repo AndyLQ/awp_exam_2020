@@ -1,10 +1,20 @@
 import React, { Component } from "react";
-// import { navigate } from "@reach/router";
 
 class AddSuggestions extends Component {
   state = {
     content: "",
+    body: "",
+    uploadUser: "",
   };
+
+  componentDidMount() {
+    const user = localStorage.getItem("username");
+    this.setState({
+      content: "",
+      body: "",
+      uploadUser: user,
+    });
+  }
 
   Capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -12,7 +22,7 @@ class AddSuggestions extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    if (this.state.content === "") {
+    if (this.state.content === "" || this.state.body === "") {
       return;
     } else {
       this.props.addSuggestion(this.state);
@@ -36,6 +46,12 @@ class AddSuggestions extends Component {
             type="text"
             placeholder="What is your suggestion?"
             id="content"
+            onChange={this.handleChange}
+          />
+          <input
+            type="text"
+            placeholder="Please, tell me more!"
+            id="body"
             onChange={this.handleChange}
           />
           <button className="btn yellow darken-2">
