@@ -1,12 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs"); // Used for hashing passwords!
+const bcrypt = require("bcryptjs");
 
-// I recommend that you store your users in MongoDB using Mongoose instead of this.
 const users = [
-  // These are just some test users with passwords.
-  // The passwords are in clear text for testing purposes (don't do this in production).
   { id: 0, username: "krdo", password: "123", fullname: "Kristian Teacher" },
   {
     id: 1,
@@ -16,6 +13,7 @@ const users = [
   },
   { id: 2, username: "alq", password: "quach", fullname: "Andy Le Quach" },
   { id: 3, username: "idali", password: "beno", fullname: "Benjamin idali" },
+  { id: 4, username: "asferg", password: "alex", fullname: "Alexander Asferg" },
 ];
 
 // Creating more test data: We run through all users and add a hash of their password to each.
