@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs"); // Used for hashing passwords!
 const users = [
   // These are just some test users with passwords.
   // The passwords are in clear text for testing purposes (don't do this in production).
-  { id: 0, username: "krdo", password: "123" },
+  { id: 0, username: "krdo", password: "123", fullName: "Kristian Teacher" },
   { id: 1, username: "tosk", password: "password" },
   { id: 2, username: "mvkh", password: "qwerty" },
 ];

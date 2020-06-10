@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(morgan("combined"));
 app.use(express.static("../client/build"));
 
-let regex = /\w*/;
+// let regex = /\w*/;
 //These paths are accessable without a token
 let openPaths = [
   { url: "/api/suggestions", methods: ["GET"] },
@@ -60,8 +60,10 @@ app.post("/api/suggestions", async (req, res) => {
   console.log("The date of the post is ", postDate);
 
   let suggestion = {
-    content: req.body.content.content,
+    content: req.body.content,
+    body: req.body.body,
     date: postDate,
+    uploadUser: req.body.uploadUser,
   };
 
   const newSuggestion = await suggestionDB.createSuggestion(suggestion);
