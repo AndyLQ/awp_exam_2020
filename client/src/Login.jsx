@@ -19,6 +19,8 @@ class Login extends Component {
     });
   };
 
+  handleClick = () => {};
+
   render() {
     return (
       <div className="container">
@@ -28,13 +30,13 @@ class Login extends Component {
             onChange={this.handleChange}
             id="username"
             type="text"
-            placeholder="username"
+            placeholder="Username"
           ></input>
           <input
             onChange={this.handleChange}
             id="password"
             type="password"
-            placeholder="password"
+            placeholder="Password"
           ></input>
           <button className="btn yellow darken-2">
             <i class="material-icons left">fingerprint</i>Login

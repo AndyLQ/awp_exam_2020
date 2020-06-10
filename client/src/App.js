@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { Router } from "@reach/router";
+import { Router, navigate } from "@reach/router";
 import Suggestion from "./Suggestion";
 import Suggestions from "./Suggestions";
 import Navbar from "./Navbar";
 import AddSuggestion from "./AddSuggestion";
 import Login from "./Login";
 import AuthService from "./AuthService";
-import { navigate } from "@reach/router";
 
 class App extends Component {
   API_URL = process.env.REACT_APP_API_URL;
@@ -16,6 +15,10 @@ class App extends Component {
     this.Auth = new AuthService(`${this.API_URL}/users/authenticate`);
     this.state = {
       suggestions: [],
+      userCredentials: {
+        username: "",
+        password: "",
+      },
     };
   }
 
@@ -25,26 +28,18 @@ class App extends Component {
 
   async login(username, password) {
     try {
-      console.log(this.Auth);
       const resp = await this.Auth.login(username, password);
       console.log("Authentication:", resp.msg);
-      alert("You are now logged in");
+      alert("Welcome " + this.Auth.getUsername() + " - Good to see you!");
       navigate("/");
       this.getSuggestions();
-    } catch (e) {
-      console.log("Login", e);
+    } catch (error) {
+      console.log("Login", error);
       alert("Login Failed, Try again");
     }
   }
 
   logout() {
-    // this.state({
-    //   userCredentials: {
-    //     username: "",
-    //     password: "",
-    //   },
-    // });
-    console.log("Trying to logout (App.js)");
     this.Auth.logout();
     navigate("/");
     this.getSuggestions();
@@ -78,6 +73,7 @@ class App extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
       },
       body: JSON.stringify({
         newSignature: newSignature,
@@ -86,11 +82,11 @@ class App extends Component {
   }
 
   async addSuggestion(suggestion) {
-    console.log("This is your suggestion tho: ", suggestion);
-    await fetch(`/api/suggestions/`, {
+    await fetch(`/api/suggestions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
       },
       body: JSON.stringify({
         content: suggestion,
@@ -101,18 +97,18 @@ class App extends Component {
   render() {
     return (
       <>
+        {/* <button onClick={() => this.logout()}>Log out</button> */}
         <Navbar
           logout={() => this.logout()}
           isloggedContent={this.isLoggedContent()}
-        >
-          {" "}
-        </Navbar>
+        ></Navbar>
         <Router>
           <Suggestions path="/" suggestions={this.state.suggestions} />
           <Suggestion
             path="/suggestions/:id"
             getSuggestion={(id) => this.getSuggestion(id)}
             addSignature={this.addSignature}
+            isloggedContent={this.isLoggedContent()}
           />
           <AddSuggestion
             path="/add-suggestion"

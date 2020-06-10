@@ -5,7 +5,7 @@ class Navbar extends Component {
   state = {};
 
   render() {
-    console.log(this.props.isloggedContent);
+    // console.log(this.props.isloggedContent);
     return (
       <nav className="nav-wrapper yellow darken-3">
         <div className="container">
@@ -25,7 +25,7 @@ class Navbar extends Component {
 
             {this.props.isloggedContent ? (
               <li onClick={() => this.props.logout()}>
-                <a hrsef="#">Logout</a>
+                <a hrsef="#">Log out</a>
               </li>
             ) : (
               <li>

@@ -17,11 +17,12 @@ app.use(express.static("../client/build"));
 //These paths are accessable without a token
 let openPaths = [
   { url: "/api/suggestions", methods: ["GET"] },
+  { url: "/login", methods: ["GET"] },
   { url: "/api/users/authenticate", methods: ["POST"] },
 ];
 
 // TODO: Hide the secret
-const secret = process.env.SECRET || "the cake is a lie";
+const secret = process.env.SECRET || "avocado";
 //This says no access without token unless its a part of openPaths
 app.use(checkJwt({ secret: secret }).unless({ path: openPaths }));
 

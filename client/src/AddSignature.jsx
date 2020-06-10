@@ -41,7 +41,7 @@ class AddSignature extends Component {
             value={this.state.name}
             color="red"
           />
-          <button className="btn yellow darken-2">
+          <button className="btn yellow darken-2 ">
             <i class="material-icons left">create</i>Sign with signature
           </button>
         </form>

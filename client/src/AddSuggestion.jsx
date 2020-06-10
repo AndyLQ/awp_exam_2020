@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { navigate } from "@reach/router";
+// import { navigate } from "@reach/router";
 
 class AddSuggestions extends Component {
   state = {
@@ -16,7 +16,8 @@ class AddSuggestions extends Component {
       return;
     } else {
       this.props.addSuggestion(this.state);
-      navigate("/");
+      // navigate("/"); //DOES NOT UPDATE BROWER
+      window.location = "/"; //DOES UPDATE BROWSER
     }
   };
 
