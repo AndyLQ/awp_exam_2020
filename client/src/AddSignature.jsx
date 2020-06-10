@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { navigate } from "@reach/router";
 
 class AddSignature extends Component {
   state = {
@@ -18,6 +19,8 @@ class AddSignature extends Component {
       this.setState({
         name: "",
       });
+      alert("Thanks for signing the suggestion");
+      navigate("/");
       e.target.value = "";
     }
   };
