@@ -14,12 +14,15 @@ app.use(bodyParser.json());
 app.use(morgan("combined"));
 app.use(express.static("../client/build"));
 
+//These paths are accessable without a token
 let openPaths = [
   { url: "/api/suggestions", methods: ["GET"] },
   { url: "/api/users/authenticate", methods: ["POST"] },
 ];
 
+// TODO: Hide the secret
 const secret = process.env.SECRET || "the cake is a lie";
+//This says no access without token unless its a part of openPaths
 app.use(checkJwt({ secret: secret }).unless({ path: openPaths }));
 
 app.use((err, req, res, next) => {
@@ -50,37 +53,8 @@ app.get("/api/suggestions/:id", async (req, res) => {
 
 //Add new suggestion
 app.post("/api/suggestions", async (req, res) => {
-  const today = new Date().getDate();
-  let thisMonth = new Date().getMonth() + 1;
-
-  if (thisMonth == 6) {
-    thisMonth = "June";
-  } else if (thisMonth == 7) {
-    thisMonth = "July";
-  } else if (thisMonth == 8) {
-    thisMonth = "August";
-  } else if (thisMonth == 9) {
-    thisMonth = "September";
-  } else if (thisMonth == 10) {
-    thisMonth = "October";
-  } else if (thisMonth == 11) {
-    thisMonth = "November";
-  } else if (thisMonth == 12) {
-    thisMonth = "December";
-  } else if (thisMonth == 1) {
-    thisMonth = "January";
-  } else if (thisMonth == 2) {
-    thisMonth = "February";
-  } else if (thisMonth == 3) {
-    thisMonth = "March";
-  } else if (thisMonth == 4) {
-    thisMonth = "April";
-  } else if (thisMonth == 5) {
-    thisMonth = "May";
-  }
-
-  const thisYear = new Date().getFullYear();
-  const postDate = today + ". " + thisMonth + " " + thisYear;
+  const postDate = suggestionDB.getToday();
+  console.log("The date of the post is ", postDate);
 
   let suggestion = {
     content: req.body.content.content,
@@ -95,39 +69,8 @@ app.post("/api/suggestions", async (req, res) => {
 app.post("/api/suggestions/:id/signatures", async (req, res) => {
   const id = req.params.id;
   const signature = req.body.newSignature.name;
-
-  // Get todays date
-  const today = new Date().getDate();
-  let thisMonth = new Date().getMonth() + 1;
-
-  if (thisMonth == 6) {
-    thisMonth = "June";
-  } else if (thisMonth == 7) {
-    thisMonth = "July";
-  } else if (thisMonth == 8) {
-    thisMonth = "August";
-  } else if (thisMonth == 9) {
-    thisMonth = "September";
-  } else if (thisMonth == 10) {
-    thisMonth = "October";
-  } else if (thisMonth == 11) {
-    thisMonth = "November";
-  } else if (thisMonth == 12) {
-    thisMonth = "December";
-  } else if (thisMonth == 1) {
-    thisMonth = "January";
-  } else if (thisMonth == 2) {
-    thisMonth = "February";
-  } else if (thisMonth == 3) {
-    thisMonth = "March";
-  } else if (thisMonth == 4) {
-    thisMonth = "April";
-  } else if (thisMonth == 5) {
-    thisMonth = "May";
-  }
-
-  const thisYear = new Date().getFullYear();
-  const postDate = today + ". " + thisMonth + " " + thisYear;
+  const postDate = suggestionDB.getToday();
+  console.log("The date of the post is ", postDate);
 
   const newSignature = { name: signature, date: postDate };
   const updatedSuggestion = await suggestionDB.addSignature(id, newSignature);

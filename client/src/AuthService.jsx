@@ -13,9 +13,10 @@ class AuthService {
     });
     let json = await res.json();
     if ([401, 404].includes(parseInt(res.status))) {
-      console.log("Avocado");
+      console.log("Did not manage to login");
       throw Error(json.msg);
     }
+    console.log("Setting token");
     this.setToken(json.token);
     this.setUsername(username);
     return json;
@@ -33,6 +34,7 @@ class AuthService {
   }
 
   setToken(token) {
+    console.log("Token passed to localStorage");
     localStorage.setItem("token", token);
   }
 
@@ -45,12 +47,14 @@ class AuthService {
   }
 
   getToken() {
+    console.log("Getting token from localStorage");
     return localStorage.getItem("token");
   }
 
   logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
+    console.log("Logged out");
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("username");
   }
 
   fetch(url, options) {

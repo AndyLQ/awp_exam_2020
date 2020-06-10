@@ -25,6 +25,7 @@ class App extends Component {
 
   async login(username, password) {
     try {
+      console.log(this.Auth);
       const resp = await this.Auth.login(username, password);
       console.log("Authentication:", resp.msg);
       alert("You are now logged in");
@@ -36,8 +37,12 @@ class App extends Component {
     }
   }
 
-  async logout(event) {
-    // TODO
+  logout() {
+    console.log("Trying to logout 2");
+    console.log(this.Auth);
+    this.Auth.logout();
+    navigate("/");
+    // alert("Logged Out");
   }
 
   async getSuggestions() {
@@ -96,6 +101,7 @@ class App extends Component {
           <Login
             path="/login"
             login={(username, password) => this.login(username, password)}
+            logout={this.logout}
           />
         </Router>
       </>

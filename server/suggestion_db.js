@@ -23,6 +23,41 @@ class Db {
     }
   }
 
+  getToday = () => {
+    const today = new Date().getDate();
+    let thisMonth = new Date().getMonth() + 1;
+
+    if (thisMonth == 6) {
+      thisMonth = "June";
+    } else if (thisMonth == 7) {
+      thisMonth = "July";
+    } else if (thisMonth == 8) {
+      thisMonth = "August";
+    } else if (thisMonth == 9) {
+      thisMonth = "September";
+    } else if (thisMonth == 10) {
+      thisMonth = "October";
+    } else if (thisMonth == 11) {
+      thisMonth = "November";
+    } else if (thisMonth == 12) {
+      thisMonth = "December";
+    } else if (thisMonth == 1) {
+      thisMonth = "January";
+    } else if (thisMonth == 2) {
+      thisMonth = "February";
+    } else if (thisMonth == 3) {
+      thisMonth = "March";
+    } else if (thisMonth == 4) {
+      thisMonth = "April";
+    } else if (thisMonth == 5) {
+      thisMonth = "May";
+    }
+
+    const thisYear = new Date().getFullYear();
+    const postDate = today + ". " + thisMonth + " " + thisYear;
+    return postDate;
+  };
+
   async getSuggestion(id) {
     try {
       return await this.suggestionModel.findById(id);
@@ -61,8 +96,8 @@ class Db {
         content: "We should get 5G in Aarhus",
         date: "9. April 2020",
         signatures: [
-          { name: "Andy", date: "10. April 2020" },
           { name: "Martin", date: "13. December 2019" },
+          { name: "Andy", date: "10. April 2020" },
         ],
       });
       promises.push(suggestion1.save());
@@ -78,9 +113,9 @@ class Db {
         content: "End hunger pls",
         date: "13. August 2019",
         signatures: [
-          { name: "Andy", date: "13. January 2020" },
           { name: "Sarah", date: "2. September 2019" },
           { name: "Lena", date: "1. January 2020" },
+          { name: "Andy", date: "13. January 2020" },
         ],
       });
       promises.push(suggestion3.save());

@@ -9,7 +9,7 @@ const users = [
   // The passwords are in clear text for testing purposes (don't do this in production).
   { id: 0, username: "krdo", password: "123" },
   { id: 1, username: "tosk", password: "password" },
-  { id: 2, username: "mvkh", password: "l33th0xor" },
+  { id: 2, username: "mvkh", password: "qwerty" },
 ];
 
 // Creating more test data: We run through all users and add a hash of their password to each.

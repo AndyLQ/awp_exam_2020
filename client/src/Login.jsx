@@ -8,7 +8,8 @@ class Login extends Component {
 
   handleLogin = (e) => {
     e.preventDefault();
-    console.log("login", this.state.username, this.state.password);
+    console.log("You logged with username:", this.state.username);
+    console.log("You logged with pasword:", this.state.password);
     this.props.login(this.state.username, this.state.password);
   };
 
@@ -16,6 +17,11 @@ class Login extends Component {
     this.setState({
       [e.target.id]: e.target.value,
     });
+  };
+
+  handleLogout = () => {
+    console.log("Trying to logout");
+    this.props.logout();
   };
 
   render() {
@@ -39,6 +45,9 @@ class Login extends Component {
             <i class="material-icons left">fingerprint</i>Login
           </button>
         </form>
+        <button className="btn" onClick={this.handleLogout}>
+          Log out
+        </button>
       </div>
     );
   }
