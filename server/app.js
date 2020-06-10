@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use(morgan("combined"));
 app.use(express.static("../client/build"));
 
+// let regex = /\w*/;
 //These paths are accessable without a token
 let openPaths = [
   { url: "/api/suggestions", methods: ["GET"] },

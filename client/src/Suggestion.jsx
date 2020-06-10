@@ -10,6 +10,7 @@ class Suggestion extends Component {
 
   render() {
     const suggestion = this.props.getSuggestion(this.props.id);
+    //
     let content = (
       <div className="container">
         <br />
@@ -46,7 +47,10 @@ class Suggestion extends Component {
             )}
 
             {this.props.isloggedContent ? (
-              <AddSignature addSignature={this.addSignature} />
+              <AddSignature
+                addSignature={this.addSignature}
+                data={suggestion.signatures}
+              />
             ) : (
               <p>
                 <b>Login to sign this suggestion</b>
