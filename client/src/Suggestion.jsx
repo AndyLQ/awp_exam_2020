@@ -45,7 +45,6 @@ class Suggestion extends Component {
               Uploaded by: {suggestion.uploadUser} - {suggestion.date}
             </h6>
             <hr />
-            <br />
             {suggestion.signatures.length !== 0 ? (
               signatures
             ) : (
