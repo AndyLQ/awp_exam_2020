@@ -69,7 +69,7 @@ class App extends Component {
   }
 
   getSuggestion(id) {
-    return this.state.suggestions.find((k) => k._id === id);
+    return this.state.suggestions.find((suggestion) => suggestion._id === id);
   }
 
   async addSignature(newSignature, suggestionId) {
@@ -83,6 +83,7 @@ class App extends Component {
         newSignature: newSignature,
       }),
     });
+    this.getSuggestions();
   }
 
   async addSuggestion(suggestion) {
@@ -114,6 +115,7 @@ class App extends Component {
             path="/suggestions/:id"
             getSuggestion={(id) => this.getSuggestion(id)}
             addSignature={this.addSignature}
+            getSuggestions={() => this.getSuggestions()}
             isloggedContent={this.isLoggedContent()}
           />
           <AddSuggestion

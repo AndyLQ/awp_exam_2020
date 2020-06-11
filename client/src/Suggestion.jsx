@@ -7,10 +7,11 @@ class Suggestion extends Component {
     const suggestionId = this.props.getSuggestion(this.props.id);
     this.props.addSignature(newSignature, suggestionId._id);
   };
-
+  //TODO:This should have a state, where it gets one suggestion with the id of whatever the path has
   render() {
+    // this.props.getSuggestions();
     const suggestion = this.props.getSuggestion(this.props.id);
-    //
+
     let content = (
       <div className="container">
         <br />

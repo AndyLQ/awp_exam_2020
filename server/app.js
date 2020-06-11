@@ -17,13 +17,18 @@ app.use(express.static("../client/build"));
 // let regex = /\w*/;
 //These paths are accessable without a token
 let openPaths = [
-  { url: "/api/suggestions", methods: ["GET"] },
-  { url: "/favicon.ico", methods: ["GET"] },
   { url: "/login", methods: ["GET"] },
+  { url: "/favicon.ico", methods: ["GET"] },
+  // { url: "/sw.js", methods: ["GET"] },
+  // { url: "/api/", methods: ["GET"] },
+  { url: "/api/suggestions", methods: ["GET"] },
+  // { url: "/suggestions/5ee10018a65724050029ca5b", methods: ["GET"] },
+  // { url: "/api/suggestions/*", methods: ["GET"] },
+  // { url: "/api/suggestions/" + regex, methods: ["GET", "POST"] },
   { url: "/api/users/authenticate", methods: ["POST"] },
 ];
 
-// TODO: Hide the secret
+// Hide the secret
 const secret = process.env.SECRET || "avocado";
 //This says no access without token unless its a part of openPaths
 app.use(checkJwt({ secret: secret }).unless({ path: openPaths }));
