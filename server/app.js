@@ -17,31 +17,60 @@ app.use(bodyParser.json());
 app.use(morgan("combined"));
 app.use(express.static("../client/build"));
 
-const users = [
-  { id: 0, username: "krdo", password: "123", fullname: "Kristian Teacher" },
-  {
-    id: 1,
-    username: "tosk",
-    password: "password",
-    fullname: "Torill Supervisor",
-  },
-  { id: 2, username: "alq", password: "quach", fullname: "Andy Le Quach" },
-  { id: 3, username: "idali", password: "beno", fullname: "Benjamin idali" },
-  { id: 4, username: "asferg", password: "alex", fullname: "Alexander Asferg" },
-];
+/**** Database ****/
+const suggestionDB = require("./suggestion_db")(mongoose);
+//Adding dummy users
 
-users.forEach(async (user) => {
-  const hashedPassword = await new Promise((resolve, reject) => {
-    bcrypt.hash(user.password, 10, function (err, hash) {
-      if (err) reject(err);
-      else resolve(hash);
+const testFunc = async function () {
+  let users = await suggestionDB.getUsers();
+  console.log("PEPPERRONI ", users);
+  await users.forEach(async (user) => {
+    const hashedPassword = await new Promise((resolve, reject) => {
+      bcrypt.hash(user.password, 10, function (err, hash) {
+        if (err) reject(err);
+        else resolve(hash);
+      });
     });
-  });
 
-  user.hash = hashedPassword; // The hash has been made, and is stored on the user object.
-  delete user.password; // Let's remove the clear text password (it shouldn't be there in the first place)
-  console.log(`Hash generated for ${user.username}:`, user); // Logging for debugging purposes
-});
+    user.hash = hashedPassword; // The hash has been made, and is stored on the user object.
+    delete user.password; // Let's remove the clear text password (it shouldn't be there in the first place)
+    console.log(`Hash generated for ${user.username}:`, user); // Logging for debugging purposes
+    console.log("GOBOBOBLE ", user.hash);
+  });
+};
+// const users = suggestionDB.getUsers();
+
+// [
+//   { id: 0, username: "krdo", password: "123", fullname: "Kristian Teacher" },
+//   {
+//     id: 1,
+//     username: "tosk",
+//     password: "password",
+//     fullname: "Torill Supervisor",
+//   },
+//   { id: 2, username: "alq", password: "quach", fullname: "Andy Le Quach" },
+//   { id: 3, username: "idali", password: "beno", fullname: "Benjamin idali" },
+//   {
+//     id: 4,
+//     username: "asferg",
+//     password: "alex",
+//     fullname: "Alexander Asferg",
+//   },
+// ];
+const users = testFunc();
+
+// users.forEach(async (user) => {
+//   const hashedPassword = await new Promise((resolve, reject) => {
+//     bcrypt.hash(user.password, 10, function (err, hash) {
+//       if (err) reject(err);
+//       else resolve(hash);
+//     });
+//   });
+
+//   user.hash = hashedPassword; // The hash has been made, and is stored on the user object.
+//   delete user.password; // Let's remove the clear text password (it shouldn't be there in the first place)
+//   console.log(`Hash generated for ${user.username}:`, user); // Logging for debugging purposes
+// });
 
 // let regex = /\w*/;
 //These paths are accessable without a token
@@ -56,6 +85,7 @@ let openPaths = [
   // { url: "/api/suggestions/*", methods: ["GET"] },
   // { url: "/api/suggestions/" + regex, methods: ["GET", "POST"] },
   { url: "/api/users/authenticate", methods: ["POST"] },
+  { url: "/api/authenticate", methods: ["POST"] },
 ];
 
 //TODO Hide the secret
@@ -71,9 +101,6 @@ app.use((err, req, res, next) => {
     next(); // If no errors, forward request to next middleware or route
   }
 });
-
-/**** Database ****/
-const suggestionDB = require("./suggestion_db")(mongoose);
 
 /**** Routes ****/
 //For getting the suggestions
@@ -129,18 +156,20 @@ app.get("*", (req, res) =>
 
 // Routes for users
 
+//Adding a user - Does not work yet
 app.post("/", (req, res) => {
   // TODO: Implement user account creation
   res.status(501).json({ msg: "create new user not implemented" });
 });
 
+//Changing a user - Does not work yet
 app.put("/", (req, res) => {
   // TODO: Implement user update (change password, etc).
   res.status(501).json({ msg: "update user not implemented" });
 });
 
 // This route takes a username and a password and create an auth token
-app.post("/authenticate", (req, res) => {
+app.post("users/authenticate", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
