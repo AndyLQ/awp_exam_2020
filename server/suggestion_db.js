@@ -1,3 +1,5 @@
+const bcrypt = require("bcryptjs");
+
 class Db {
   constructor(mongoose) {
     const suggestionSchema = new mongoose.Schema({
@@ -21,6 +23,7 @@ class Db {
       fullname: String,
       dateCreated: String,
       admin: Boolean,
+      hash: String,
     });
 
     this.userModel = mongoose.model("user", userSchema);
@@ -182,36 +185,76 @@ class Db {
         fullname: "Andy Le Quach",
         dateCreated: "10. June 2020",
         admin: true,
+        hash: "",
       });
+
+      const hashedPassword = await new Promise((resolve, reject) => {
+        bcrypt.hash(user1.password, 10, function (err, hash) {
+          if (err) reject(err);
+          else resolve(hash);
+        });
+      });
+      user1.hash = hashedPassword;
+      user1.password = "hidden";
+
       promises.push(user1.save());
 
-      let user2 = new this.userModel({
-        username: "idali",
-        password: "beno",
-        fullname: "Benjamin Idali",
-        dateCreated: "11. June 2020",
-        admin: false,
-      });
-      promises.push(user2.save());
+      // let user2 = new this.userModel({
+      //   username: "idali",
+      //   password: "beno",
+      //   fullname: "Benjamin Idali",
+      //   dateCreated: "11. June 2020",
+      //   admin: false,
+      // });
 
-      let user3 = new this.userModel({
-        username: "asferg",
-        password: "dewd",
-        fullname: "Alexander Asferg",
-        dateCreated: "11. June 2020",
-        admin: false,
-      });
+      // const hashedPassword = await new Promise((resolve, reject) => {
+      //   bcrypt.hash(user1.password, 10, function (err, hash) {
+      //     if (err) reject(err);
+      //     else resolve(hash);
+      //   });
+      // });
+      // user1.hash = hashedPassword;
+      // delete user1.password;
 
-      promises.push(user3.save());
+      // promises.push(user2.save());
 
-      let user4 = new this.userModel({
-        username: "len4",
-        password: "bums",
-        fullname: "Lena Seybold ",
-        dateCreated: "11. June 2020",
-        admin: true,
-      });
-      promises.push(user4.save());
+      // let user3 = new this.userModel({
+      //   username: "asferg",
+      //   password: "dewd",
+      //   fullname: "Alexander Asferg",
+      //   dateCreated: "11. June 2020",
+      //   admin: false,
+      // });
+
+      // const hashedPassword = await new Promise((resolve, reject) => {
+      //   bcrypt.hash(user1.password, 10, function (err, hash) {
+      //     if (err) reject(err);
+      //     else resolve(hash);
+      //   });
+      // });
+      // user1.hash = hashedPassword;
+      // delete user1.password;
+
+      // promises.push(user3.save());
+
+      // let user4 = new this.userModel({
+      //   username: "len4",
+      //   password: "bums",
+      //   fullname: "Lena Seybold ",
+      //   dateCreated: "11. June 2020",
+      //   admin: true,
+      // });
+
+      // const hashedPassword = await new Promise((resolve, reject) => {
+      //   bcrypt.hash(user1.password, 10, function (err, hash) {
+      //     if (err) reject(err);
+      //     else resolve(hash);
+      //   });
+      // });
+      // user1.hash = hashedPassword;
+      // delete user1.password;
+
+      // promises.push(user4.save());
     }
   }
 }

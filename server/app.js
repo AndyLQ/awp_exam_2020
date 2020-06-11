@@ -17,62 +17,9 @@ app.use(bodyParser.json());
 app.use(morgan("combined"));
 app.use(express.static("../client/build"));
 
-/**** Database ****/
-const suggestionDB = require("./suggestion_db")(mongoose);
-//Adding dummy users
+const secret = process.env.SECRET || "avocado";
+//This says no access without token unless its a part of openPaths
 
-const testFunc = async function () {
-  let users = await suggestionDB.getUsers();
-  console.log("PEPPERRONI ", users);
-  await users.forEach(async (user) => {
-    const hashedPassword = await new Promise((resolve, reject) => {
-      bcrypt.hash(user.password, 10, function (err, hash) {
-        if (err) reject(err);
-        else resolve(hash);
-      });
-    });
-
-    user.hash = hashedPassword; // The hash has been made, and is stored on the user object.
-    delete user.password; // Let's remove the clear text password (it shouldn't be there in the first place)
-    console.log(`Hash generated for ${user.username}:`, user); // Logging for debugging purposes
-    console.log("GOBOBOBLE ", user.hash);
-  });
-};
-// const users = suggestionDB.getUsers();
-
-// [
-//   { id: 0, username: "krdo", password: "123", fullname: "Kristian Teacher" },
-//   {
-//     id: 1,
-//     username: "tosk",
-//     password: "password",
-//     fullname: "Torill Supervisor",
-//   },
-//   { id: 2, username: "alq", password: "quach", fullname: "Andy Le Quach" },
-//   { id: 3, username: "idali", password: "beno", fullname: "Benjamin idali" },
-//   {
-//     id: 4,
-//     username: "asferg",
-//     password: "alex",
-//     fullname: "Alexander Asferg",
-//   },
-// ];
-const users = testFunc();
-
-// users.forEach(async (user) => {
-//   const hashedPassword = await new Promise((resolve, reject) => {
-//     bcrypt.hash(user.password, 10, function (err, hash) {
-//       if (err) reject(err);
-//       else resolve(hash);
-//     });
-//   });
-
-//   user.hash = hashedPassword; // The hash has been made, and is stored on the user object.
-//   delete user.password; // Let's remove the clear text password (it shouldn't be there in the first place)
-//   console.log(`Hash generated for ${user.username}:`, user); // Logging for debugging purposes
-// });
-
-// let regex = /\w*/;
 //These paths are accessable without a token
 let openPaths = [
   { url: "/login", methods: ["GET"] },
@@ -88,10 +35,30 @@ let openPaths = [
   { url: "/api/authenticate", methods: ["POST"] },
 ];
 
-//TODO Hide the secret
-const secret = process.env.SECRET || "avocado";
-//This says no access without token unless its a part of openPaths
 app.use(checkJwt({ secret: secret }).unless({ path: openPaths }));
+
+/**** Database ****/
+const suggestionDB = require("./suggestion_db")(mongoose);
+
+//This code is used for hashing passwords
+
+// users.forEach(async (user) => {
+//   const hashedPassword = await new Promise((resolve, reject) => {
+//     console.log(user.password);
+//     bcrypt.hash(user.password, 10, function (err, hash) {
+//       if (err) reject(err);
+//       else resolve(hash);
+//     });
+//   });
+
+//   // The hash has been made, and is stored on the user object.
+//   user.hash = hashedPassword;
+
+//   // Let's remove the clear text password (it shouldn't be there in the first place)
+//   delete user.password;
+//   console.log(`Hash generated for ${user.username}:`, user); // Logging for debugging purposes
+//   console.log("Users!!!: ", users);
+// });
 
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
@@ -103,6 +70,42 @@ app.use((err, req, res, next) => {
 });
 
 /**** Routes ****/
+
+app.post("/api/users/authenticate", async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  if (!username || !password) {
+    let msg = "Username or password missing!";
+    console.error(msg);
+    res.status(401).json({ msg: msg });
+    return;
+  }
+
+  const users = await suggestionDB.getUsers();
+
+  console.log("Users: ", users);
+
+  const user = users.find((user) => user.username === username);
+  if (user) {
+    // If the user is found
+    bcrypt.compare(password, user.hash, (err, result) => {
+      if (result) {
+        // If the password matched
+        const payload = { username: username };
+        const token = jwt.sign(payload, secret, { expiresIn: "1h" });
+
+        res.json({
+          msg: `User '${username}' authenticated successfully`,
+          token: token,
+        });
+      } else res.status(401).json({ msg: "Password mismatch!" });
+    });
+  } else {
+    res.status(404).json({ msg: "User not found!" });
+  }
+});
+
 //For getting the suggestions
 app.get("/api/suggestions", async (req, res) => {
   const suggestion = await suggestionDB.getSuggestions();
@@ -169,36 +172,6 @@ app.put("/", (req, res) => {
 });
 
 // This route takes a username and a password and create an auth token
-app.post("users/authenticate", (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-
-  if (!username || !password) {
-    let msg = "Username or password missing!";
-    console.error(msg);
-    res.status(401).json({ msg: msg });
-    return;
-  }
-
-  const user = users.find((user) => user.username === username);
-  if (user) {
-    // If the user is found
-    bcrypt.compare(password, user.hash, (err, result) => {
-      if (result) {
-        // If the password matched
-        const payload = { username: username };
-        const token = jwt.sign(payload, secret, { expiresIn: "1h" });
-
-        res.json({
-          msg: `User '${username}' authenticated successfully`,
-          token: token,
-        });
-      } else res.status(401).json({ msg: "Password mismatch!" });
-    });
-  } else {
-    res.status(404).json({ msg: "User not found!" });
-  }
-});
 
 const url = process.env.MONGO_URL || "mongodb://localhost/suggestions_db";
 
