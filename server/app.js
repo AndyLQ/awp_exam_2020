@@ -21,14 +21,19 @@ const secret = process.env.SECRET || "avocado";
 //This says no access without token unless its a part of openPaths
 
 //These paths are accessable without a token
+
+// var regexLiteral = /\w*/;
+
 let openPaths = [
   { url: "/login", methods: ["GET"] },
+  { url: "/user", methods: ["GET"] },
   { url: "/favicon.ico", methods: ["GET"] },
   // { url: "/sw.js", methods: ["GET"] },
   // { url: "/api/", methods: ["GET"] },
   { url: "/api/suggestions", methods: ["GET"] },
   { url: "/api/users", methods: ["GET"] },
-  // { url: "/suggestions/5ee10018a65724050029ca5b", methods: ["GET"] },
+  { url: "/api/users", methods: ["GET"] },
+  // { url: "/suggestions/" + regexLiteral, methods: ["GET"] },
   // { url: "/api/suggestions/*", methods: ["GET"] },
   // { url: "/api/suggestions/" + regex, methods: ["GET", "POST"] },
   { url: "/api/users/authenticate", methods: ["POST"] },
@@ -115,6 +120,13 @@ app.get("/api/suggestions", async (req, res) => {
 //Getting users
 app.get("/api/users", async (req, res) => {
   const user = await suggestionDB.getUsers();
+  res.json(user);
+});
+
+//Getting a user
+app.get("/api/users/:id", async (req, res) => {
+  let id = req.params.id;
+  const user = await suggestionDB.getUser(id);
   res.json(user);
 });
 

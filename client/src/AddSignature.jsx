@@ -49,7 +49,7 @@ class AddSignature extends Component {
           <label>Wanna support this suggestion?</label>
           <input
             type="text"
-            placeholder="Sign with your username"
+            placeholder="Sign with your FULL NAME"
             id="name"
             onChange={this.handleChange}
             value={this.state.name}

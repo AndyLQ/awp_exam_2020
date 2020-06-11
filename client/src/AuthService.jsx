@@ -47,6 +47,9 @@ class AuthService {
     console.log("Logged out");
     localStorage.removeItem("token");
     localStorage.removeItem("username");
+    localStorage.removeItem("fullname");
+    localStorage.removeItem("id");
+    localStorage.removeItem("userCreateDate");
   }
 
   fetch(url, options) {

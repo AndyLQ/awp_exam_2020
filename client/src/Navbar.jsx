@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { Link } from "@reach/router";
 
 class Navbar extends Component {
-  state = {};
+  state = {
+    username: "",
+    user: "",
+  };
 
   render() {
-    // console.log(this.props.isloggedContent);
     return (
       <nav className="nav-wrapper yellow darken-3">
         <div className="container">
@@ -20,6 +22,12 @@ class Navbar extends Component {
             {this.props.isloggedContent ? (
               <li>
                 <Link to="/add-suggestion">Add Suggestion</Link>
+              </li>
+            ) : null}
+
+            {this.props.isloggedContent ? (
+              <li>
+                <Link to="/user"> {localStorage.getItem("username")}</Link>
               </li>
             ) : null}
 
