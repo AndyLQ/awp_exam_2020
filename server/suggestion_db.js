@@ -199,62 +199,62 @@ class Db {
 
       promises.push(user1.save());
 
-      // let user2 = new this.userModel({
-      //   username: "idali",
-      //   password: "beno",
-      //   fullname: "Benjamin Idali",
-      //   dateCreated: "11. June 2020",
-      //   admin: false,
-      // });
+      let user2 = new this.userModel({
+        username: "idali",
+        password: "beno",
+        fullname: "Benjamin Idali",
+        dateCreated: "11. June 2020",
+        admin: false,
+      });
 
-      // const hashedPassword = await new Promise((resolve, reject) => {
-      //   bcrypt.hash(user1.password, 10, function (err, hash) {
-      //     if (err) reject(err);
-      //     else resolve(hash);
-      //   });
-      // });
-      // user1.hash = hashedPassword;
-      // delete user1.password;
+      const hashedPassword = await new Promise((resolve, reject) => {
+        bcrypt.hash(user2.password, 10, function (err, hash) {
+          if (err) reject(err);
+          else resolve(hash);
+        });
+      });
+      user2.hash = hashedPassword;
+      delete user2.password;
 
-      // promises.push(user2.save());
+      promises.push(user2.save());
 
-      // let user3 = new this.userModel({
-      //   username: "asferg",
-      //   password: "dewd",
-      //   fullname: "Alexander Asferg",
-      //   dateCreated: "11. June 2020",
-      //   admin: false,
-      // });
+      let user3 = new this.userModel({
+        username: "asferg",
+        password: "dewd",
+        fullname: "Alexander Asferg",
+        dateCreated: "11. June 2020",
+        admin: false,
+      });
 
-      // const hashedPassword = await new Promise((resolve, reject) => {
-      //   bcrypt.hash(user1.password, 10, function (err, hash) {
-      //     if (err) reject(err);
-      //     else resolve(hash);
-      //   });
-      // });
-      // user1.hash = hashedPassword;
-      // delete user1.password;
+      const hashedPassword = await new Promise((resolve, reject) => {
+        bcrypt.hash(user3.password, 10, function (err, hash) {
+          if (err) reject(err);
+          else resolve(hash);
+        });
+      });
+      user3.hash = hashedPassword;
+      delete user3.password;
 
-      // promises.push(user3.save());
+      promises.push(user3.save());
 
-      // let user4 = new this.userModel({
-      //   username: "len4",
-      //   password: "bums",
-      //   fullname: "Lena Seybold ",
-      //   dateCreated: "11. June 2020",
-      //   admin: true,
-      // });
+      let user4 = new this.userModel({
+        username: "len4",
+        password: "bums",
+        fullname: "Lena Seybold ",
+        dateCreated: "11. June 2020",
+        admin: true,
+      });
 
-      // const hashedPassword = await new Promise((resolve, reject) => {
-      //   bcrypt.hash(user1.password, 10, function (err, hash) {
-      //     if (err) reject(err);
-      //     else resolve(hash);
-      //   });
-      // });
-      // user1.hash = hashedPassword;
-      // delete user1.password;
+      const hashedPassword = await new Promise((resolve, reject) => {
+        bcrypt.hash(user4.password, 10, function (err, hash) {
+          if (err) reject(err);
+          else resolve(hash);
+        });
+      });
+      user4.hash = hashedPassword;
+      delete user4.password;
 
-      // promises.push(user4.save());
+      promises.push(user4.save());
     }
   }
 }
