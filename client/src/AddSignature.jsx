@@ -2,36 +2,40 @@ import React, { Component } from "react";
 
 class AddSignature extends Component {
   state = {
-    name: "",
+    fullname: "",
+    username: "",
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
     const searchName = this.props.data.filter(
-      (name) => name.name === this.state.name
+      (name) => name.name === localStorage.getItem("username")
     );
 
-    if (this.state.name === "") {
+    if (this.state.fullname === "") {
       return;
-    } else if (this.state.name !== localStorage.getItem("username")) {
-      alert("You have to sign in with your username");
+    } else if (this.state.fullname !== localStorage.getItem("fullname")) {
+      alert("You have to sign in with your full name");
       this.setState({
-        name: "",
+        fullname: "",
       });
       return;
     } else if (searchName.length !== 0) {
       alert("You have already signed this");
       this.setState({
-        name: "",
+        fullname: "",
       });
       return;
     } else {
-      this.props.addSignature(this.state);
+      const signName = localStorage.getItem("username");
+      console.log(signName);
+      console.log(this.state);
+      this.props.addSignature(signName);
       this.setState({
-        name: "",
+        fullname: "",
       });
       alert("Thanks for signing the suggestion");
-      // window.location = "/";
+      window.location = "/";
       e.target.value = "";
     }
   };
@@ -49,10 +53,10 @@ class AddSignature extends Component {
           <label>Wanna support this suggestion?</label>
           <input
             type="text"
-            placeholder="Sign with your username"
-            id="name"
+            placeholder="Sign with your FULL NAME"
+            id="fullname"
             onChange={this.handleChange}
-            value={this.state.name}
+            value={this.state.fullname}
             color="red"
           />
           <button className="btn yellow darken-2 ">

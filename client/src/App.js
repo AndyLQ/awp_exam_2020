@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import AddSuggestion from "./AddSuggestion";
 import Login from "./Login";
 import AuthService from "./AuthService";
+import User from "./User";
 
 class App extends Component {
   API_URL = process.env.REACT_APP_API_URL;
@@ -15,21 +16,22 @@ class App extends Component {
     this.Auth = new AuthService(`${this.API_URL}/users/authenticate`);
     this.state = {
       suggestions: [],
-      userCredentials: {
-        username: "",
-        password: "",
-      },
+      users: [],
     };
   }
 
   componentDidMount() {
     this.getSuggestions();
+    this.getUsers();
   }
 
   componentDidUpdate() {
-    this.isLoggedContent()
-      ? console.log("You are logged in")
-      : console.log("You are not logged in");
+    if (this.isLoggedContent()) {
+      this.getLoggedUser();
+      console.log("You are logged in");
+    } else {
+      console.log("You are not logged in");
+    }
   }
 
   async login(username, password) {
@@ -68,11 +70,41 @@ class App extends Component {
     });
   }
 
+  async getUsers() {
+    let url = `${this.API_URL}/users`;
+    let result = await fetch(url);
+    let json = await result.json();
+    return this.setState({
+      users: json,
+    });
+  }
+
   getSuggestion(id) {
     return this.state.suggestions.find((suggestion) => suggestion._id === id);
   }
 
+  getLoggedUser() {
+    if (this.state.users.length !== 0) {
+      const loggedUser = localStorage.getItem("username");
+      const newUsers = this.state.users.filter(
+        (user) => user.username === loggedUser
+      );
+      const user = newUsers[0];
+      this.storeUser(user);
+    }
+  }
+
+  storeUser(user) {
+    const fullnameUser = user.fullname;
+    localStorage.setItem("fullname", fullnameUser);
+    const idUser = user._id;
+    localStorage.setItem("id", idUser);
+    const dateUser = user.dateCreated;
+    localStorage.setItem("userCreateDate", dateUser);
+  }
+
   async addSignature(newSignature, suggestionId) {
+    console.log(newSignature);
     await fetch(`/api/suggestions/${suggestionId}/signatures`, {
       method: "POST",
       headers: {
@@ -102,12 +134,14 @@ class App extends Component {
   }
 
   render() {
+    // console.log(this.state);
     return (
       <>
         {/* <button onClick={() => this.logout()}>Log out</button> */}
         <Navbar
           logout={() => this.logout()}
           isloggedContent={this.isLoggedContent()}
+          users={this.state.users}
         ></Navbar>
         <Router>
           <Suggestions path="/" suggestions={this.state.suggestions} />
@@ -126,6 +160,7 @@ class App extends Component {
             path="/login"
             login={(username, password) => this.login(username, password)}
           />
+          <User path="/user"></User>
         </Router>
       </>
     );
