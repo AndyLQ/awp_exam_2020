@@ -1,3 +1,5 @@
+const bcrypt = require("bcryptjs");
+
 class Db {
   constructor(mongoose) {
     const suggestionSchema = new mongoose.Schema({
@@ -14,6 +16,17 @@ class Db {
     });
 
     this.suggestionModel = mongoose.model("suggestion", suggestionSchema);
+
+    const userSchema = new mongoose.Schema({
+      username: String,
+      password: String,
+      fullname: String,
+      dateCreated: String,
+      admin: Boolean,
+      hash: String,
+    });
+
+    this.userModel = mongoose.model("user", userSchema);
   }
 
   async getSuggestions() {
@@ -21,6 +34,14 @@ class Db {
       return await this.suggestionModel.find({});
     } catch (error) {
       console.error("getSuggestions:", error.message);
+      return {};
+    }
+  }
+
+  async getUsers() {
+    try {
+      return await this.userModel.find({});
+    } catch (error) {
       return {};
     }
   }
@@ -69,12 +90,31 @@ class Db {
     }
   }
 
+  async getUser(id) {
+    try {
+      return await this.userModel.findById(id);
+    } catch (error) {
+      console.error("getSuggestion:", error.message);
+      return {};
+    }
+  }
+
   async createSuggestion(newSuggestion) {
     try {
       let suggestion = new this.suggestionModel(newSuggestion);
       return await suggestion.save();
     } catch (error) {
       console.error("createSuggestion:", error.message);
+      return {};
+    }
+  }
+
+  async crateUser(newUser) {
+    try {
+      let user = new this.userModel(newUser);
+      return await user.save();
+    } catch (error) {
+      console.error("createUser: ", error.message);
       return {};
     }
   }
@@ -129,6 +169,92 @@ class Db {
       promises.push(suggestion3.save());
 
       return Promise.all(promises);
+    }
+  }
+
+  async initUsers() {
+    let numberOfUsers = (await this.getUsers()).length;
+
+    if (numberOfUsers === 0) {
+      console.log("Adding users because database was empty!");
+      let promises = [];
+
+      let user1 = new this.userModel({
+        username: "alq",
+        password: "quach",
+        fullname: "Andy Le Quach",
+        dateCreated: "10. June 2020",
+        admin: true,
+        hash: "",
+      });
+
+      const hashedPassword = await new Promise((resolve, reject) => {
+        bcrypt.hash(user1.password, 10, function (err, hash) {
+          if (err) reject(err);
+          else resolve(hash);
+        });
+      });
+      user1.hash = hashedPassword;
+      user1.password = "hidden";
+
+      promises.push(user1.save());
+
+      // let user2 = new this.userModel({
+      //   username: "idali",
+      //   password: "beno",
+      //   fullname: "Benjamin Idali",
+      //   dateCreated: "11. June 2020",
+      //   admin: false,
+      // });
+
+      // const hashedPassword = await new Promise((resolve, reject) => {
+      //   bcrypt.hash(user1.password, 10, function (err, hash) {
+      //     if (err) reject(err);
+      //     else resolve(hash);
+      //   });
+      // });
+      // user1.hash = hashedPassword;
+      // delete user1.password;
+
+      // promises.push(user2.save());
+
+      // let user3 = new this.userModel({
+      //   username: "asferg",
+      //   password: "dewd",
+      //   fullname: "Alexander Asferg",
+      //   dateCreated: "11. June 2020",
+      //   admin: false,
+      // });
+
+      // const hashedPassword = await new Promise((resolve, reject) => {
+      //   bcrypt.hash(user1.password, 10, function (err, hash) {
+      //     if (err) reject(err);
+      //     else resolve(hash);
+      //   });
+      // });
+      // user1.hash = hashedPassword;
+      // delete user1.password;
+
+      // promises.push(user3.save());
+
+      // let user4 = new this.userModel({
+      //   username: "len4",
+      //   password: "bums",
+      //   fullname: "Lena Seybold ",
+      //   dateCreated: "11. June 2020",
+      //   admin: true,
+      // });
+
+      // const hashedPassword = await new Promise((resolve, reject) => {
+      //   bcrypt.hash(user1.password, 10, function (err, hash) {
+      //     if (err) reject(err);
+      //     else resolve(hash);
+      //   });
+      // });
+      // user1.hash = hashedPassword;
+      // delete user1.password;
+
+      // promises.push(user4.save());
     }
   }
 }

@@ -5,6 +5,9 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
 const checkJwt = require("express-jwt");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const router = express.Router();
 
 /**** Configuration ****/
 const port = process.env.PORT || 8080;
@@ -14,19 +17,48 @@ app.use(bodyParser.json());
 app.use(morgan("combined"));
 app.use(express.static("../client/build"));
 
-// let regex = /\w*/;
-//These paths are accessable without a token
-let openPaths = [
-  { url: "/api/suggestions", methods: ["GET"] },
-  { url: "/favicon.ico", methods: ["GET"] },
-  { url: "/login", methods: ["GET"] },
-  { url: "/api/users/authenticate", methods: ["POST"] },
-];
-
-// TODO: Hide the secret
 const secret = process.env.SECRET || "avocado";
 //This says no access without token unless its a part of openPaths
+
+//These paths are accessable without a token
+let openPaths = [
+  { url: "/login", methods: ["GET"] },
+  { url: "/favicon.ico", methods: ["GET"] },
+  // { url: "/sw.js", methods: ["GET"] },
+  // { url: "/api/", methods: ["GET"] },
+  { url: "/api/suggestions", methods: ["GET"] },
+  { url: "/api/users", methods: ["GET"] },
+  // { url: "/suggestions/5ee10018a65724050029ca5b", methods: ["GET"] },
+  // { url: "/api/suggestions/*", methods: ["GET"] },
+  // { url: "/api/suggestions/" + regex, methods: ["GET", "POST"] },
+  { url: "/api/users/authenticate", methods: ["POST"] },
+  { url: "/api/authenticate", methods: ["POST"] },
+];
+
 app.use(checkJwt({ secret: secret }).unless({ path: openPaths }));
+
+/**** Database ****/
+const suggestionDB = require("./suggestion_db")(mongoose);
+
+//This code is used for hashing passwords
+
+// users.forEach(async (user) => {
+//   const hashedPassword = await new Promise((resolve, reject) => {
+//     console.log(user.password);
+//     bcrypt.hash(user.password, 10, function (err, hash) {
+//       if (err) reject(err);
+//       else resolve(hash);
+//     });
+//   });
+
+//   // The hash has been made, and is stored on the user object.
+//   user.hash = hashedPassword;
+
+//   // Let's remove the clear text password (it shouldn't be there in the first place)
+//   delete user.password;
+//   console.log(`Hash generated for ${user.username}:`, user); // Logging for debugging purposes
+//   console.log("Users!!!: ", users);
+// });
 
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
@@ -37,14 +69,53 @@ app.use((err, req, res, next) => {
   }
 });
 
-/**** Database ****/
-const suggestionDB = require("./suggestion_db")(mongoose);
-
 /**** Routes ****/
+
+app.post("/api/users/authenticate", async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  if (!username || !password) {
+    let msg = "Username or password missing!";
+    console.error(msg);
+    res.status(401).json({ msg: msg });
+    return;
+  }
+
+  const users = await suggestionDB.getUsers();
+
+  console.log("Users: ", users);
+
+  const user = users.find((user) => user.username === username);
+  if (user) {
+    // If the user is found
+    bcrypt.compare(password, user.hash, (err, result) => {
+      if (result) {
+        // If the password matched
+        const payload = { username: username };
+        const token = jwt.sign(payload, secret, { expiresIn: "1h" });
+
+        res.json({
+          msg: `User '${username}' authenticated successfully`,
+          token: token,
+        });
+      } else res.status(401).json({ msg: "Password mismatch!" });
+    });
+  } else {
+    res.status(404).json({ msg: "User not found!" });
+  }
+});
+
 //For getting the suggestions
 app.get("/api/suggestions", async (req, res) => {
   const suggestion = await suggestionDB.getSuggestions();
   res.json(suggestion);
+});
+
+//Getting users
+app.get("/api/users", async (req, res) => {
+  const user = await suggestionDB.getUsers();
+  res.json(user);
 });
 
 //for getting a specific suggestion based on the id
@@ -82,19 +153,33 @@ app.post("/api/suggestions/:id/signatures", async (req, res) => {
   res.json(updatedSuggestion);
 });
 
-//Route for users
-const usersRouter = require("./routers/users_router")(secret);
-app.use("/api/users", usersRouter);
-
 app.get("*", (req, res) =>
   res.sendFile(path.resolve("..", "client", "build", "index.html"))
 );
 
+// Routes for users
+
+//Adding a user - Does not work yet
+app.post("/", (req, res) => {
+  // TODO: Implement user account creation
+  res.status(501).json({ msg: "create new user not implemented" });
+});
+
+//Changing a user - Does not work yet
+app.put("/", (req, res) => {
+  // TODO: Implement user update (change password, etc).
+  res.status(501).json({ msg: "update user not implemented" });
+});
+
+// This route takes a username and a password and create an auth token
+
 const url = process.env.MONGO_URL || "mongodb://localhost/suggestions_db";
+
 mongoose
   .connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(async () => {
     await suggestionDB.fillIfEmpty();
+    await suggestionDB.initUsers();
     await app.listen(port);
     console.log(`Suggestion API running on port ${port}!`);
   })

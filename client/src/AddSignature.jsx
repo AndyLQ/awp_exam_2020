@@ -31,7 +31,7 @@ class AddSignature extends Component {
         name: "",
       });
       alert("Thanks for signing the suggestion");
-      window.location = "/";
+      // window.location = "/";
       e.target.value = "";
     }
   };
