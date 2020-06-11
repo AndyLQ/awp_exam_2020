@@ -135,35 +135,38 @@ class Db {
       let promises = [];
 
       let suggestion1 = new this.suggestionModel({
-        content: "We should get 5G in Aarhus",
-        body: "5G is the future, we dont like buffering and loading",
+        content: "We could all donate 5$ a month",
+        body:
+          "If we all would donate 5 Dollars to funds that needed it, more problems would be solved all over the world in no time!",
         date: "9. April 2020",
-        uploadUser: "ALQ",
+        uploadUser: "The Queen of England",
         signatures: [
-          { name: "Martin", date: "13. December 2019" },
-          { name: "Andy", date: "10. April 2020" },
+          { name: "Amnesty", date: "13. December 2019" },
+          { name: "Red barnet", date: "10. April 2020" },
         ],
       });
       promises.push(suggestion1.save());
 
       let suggestion2 = new this.suggestionModel({
-        content: "Justice for George Floyd",
-        body: "Black Lives Matter",
+        content: "We should all use the metric system ",
+        body:
+          "It would make everything easier! Imagine that everyone spoke the same language perfectly all over the world. Also we should drive in the right side. All of us.",
         date: "20. February 2020",
-        uploadUser: "Jackson",
-        signatures: [{ name: "John", date: "28. February 2020" }],
+        uploadUser: "European Union",
+        signatures: [{ name: "Dubai", date: "28. February 2020" }],
       });
       promises.push(suggestion2.save());
 
       let suggestion3 = new this.suggestionModel({
-        content: "End hunger pls",
-        body: "This is some broke ass concept, why not just eat?",
+        content: "We should destroy Covid-19 once and for all!",
+        body:
+          "If we all stayed home, isolated, for one full month, the world would get rid of Covid-19/Corona. But it would also destroy the flu and other influenza. Think about it as having bad wifi at home and restarting your router to fix it. ",
         date: "13. August 2019",
         uploadUser: "Todd Dillerson",
         signatures: [
-          { name: "Sarah", date: "2. September 2019" },
-          { name: "Lena", date: "1. January 2020" },
-          { name: "Andy", date: "13. January 2020" },
+          { name: "Trick2g", date: "2. September 2019" },
+          { name: "Welyn", date: "1. January 2020" },
+          { name: "Blooprint", date: "13. January 2020" },
         ],
       });
       promises.push(suggestion3.save());
