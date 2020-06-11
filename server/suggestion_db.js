@@ -188,7 +188,7 @@ class Db {
         hash: "",
       });
 
-      const hashedPassword = await new Promise((resolve, reject) => {
+      let hashedPassword = await new Promise((resolve, reject) => {
         bcrypt.hash(user1.password, 10, function (err, hash) {
           if (err) reject(err);
           else resolve(hash);
@@ -207,14 +207,14 @@ class Db {
         admin: false,
       });
 
-      const hashedPassword = await new Promise((resolve, reject) => {
+      hashedPassword = await new Promise((resolve, reject) => {
         bcrypt.hash(user2.password, 10, function (err, hash) {
           if (err) reject(err);
           else resolve(hash);
         });
       });
       user2.hash = hashedPassword;
-      delete user2.password;
+      user2.password = "hidden";
 
       promises.push(user2.save());
 
@@ -226,14 +226,14 @@ class Db {
         admin: false,
       });
 
-      const hashedPassword = await new Promise((resolve, reject) => {
+      hashedPassword = await new Promise((resolve, reject) => {
         bcrypt.hash(user3.password, 10, function (err, hash) {
           if (err) reject(err);
           else resolve(hash);
         });
       });
       user3.hash = hashedPassword;
-      delete user3.password;
+      user3.password = "hidden";
 
       promises.push(user3.save());
 
@@ -245,14 +245,14 @@ class Db {
         admin: true,
       });
 
-      const hashedPassword = await new Promise((resolve, reject) => {
+      hashedPassword = await new Promise((resolve, reject) => {
         bcrypt.hash(user4.password, 10, function (err, hash) {
           if (err) reject(err);
           else resolve(hash);
         });
       });
       user4.hash = hashedPassword;
-      delete user4.password;
+      user4.password = "hidden";
 
       promises.push(user4.save());
     }
