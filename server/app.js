@@ -156,7 +156,7 @@ app.post("/api/suggestions", async (req, res) => {
 //Add new Signature to a suggestion
 app.post("/api/suggestions/:id/signatures", async (req, res) => {
   const id = req.params.id;
-  const signature = req.body.newSignature.name;
+  const signature = req.body.newSignature;
   const postDate = suggestionDB.getToday();
   console.log("The date of the post is ", postDate);
 

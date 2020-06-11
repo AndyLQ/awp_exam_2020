@@ -90,7 +90,6 @@ class App extends Component {
         (user) => user.username === loggedUser
       );
       const user = newUsers[0];
-      console.log(user);
       this.storeUser(user);
     }
   }
@@ -105,6 +104,7 @@ class App extends Component {
   }
 
   async addSignature(newSignature, suggestionId) {
+    console.log(newSignature);
     await fetch(`/api/suggestions/${suggestionId}/signatures`, {
       method: "POST",
       headers: {
