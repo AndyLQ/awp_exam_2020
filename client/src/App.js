@@ -11,7 +11,7 @@ import Register from "./Register";
 import Dashboard from "./Dashboard";
 
 class App extends Component {
-  API_URL = process.env.REACT_APP_API_URL;
+  API_URL = "/api";
 
   constructor(props) {
     super(props);
