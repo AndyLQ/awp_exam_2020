@@ -27,13 +27,19 @@ class Navbar extends Component {
 
             {this.props.isloggedContent ? (
               <li>
-                <Link to="/user"> {localStorage.getItem("username")}</Link>
+                <Link to="/user">Profile</Link>
               </li>
             ) : null}
 
+            {this.props.isloggedContent ? null : (
+              <li>
+                <Link to="/register">Register</Link>
+              </li>
+            )}
+
             {this.props.isloggedContent ? (
               <li onClick={() => this.props.logout()}>
-                <a hrsef="#">Log out</a>
+                <a>Log out</a>
               </li>
             ) : (
               <li>
