@@ -41,7 +41,6 @@ class App extends Component {
       const resp = await this.Auth.login(username, password);
       console.log("Authentication:", resp.msg);
       alert("Welcome " + this.Auth.getUsername() + " - Good to see you!");
-      // navigate("/");
       window.location = "/";
       this.getSuggestions();
     } catch (error) {
@@ -191,7 +190,11 @@ class App extends Component {
             getUsers={this.getUsers}
             users={this.state.users}
           ></Register>
-          <Dashboard path="/dashboard" />
+          <Dashboard
+            path="/dashboard"
+            suggestions={this.state.suggestions}
+            users={this.state.users}
+          />
         </Router>
       </>
     );
