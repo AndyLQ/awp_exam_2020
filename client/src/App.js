@@ -15,7 +15,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.Auth = new AuthService(`${this.API_URL}/users/`);
+    this.Auth = new AuthService(`/api/users/authenticate`);
     this.state = {
       suggestions: [],
       users: [],
