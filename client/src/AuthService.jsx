@@ -5,7 +5,7 @@ class AuthService {
 
   async login(username, password) {
     console.log(this.auth_api_url);
-    const res = await this.fetch(/api/users/authenticate, {
+    const res = await this.fetch("/api/users/authenticate", {
       method: "POST",
       body: JSON.stringify({
         username,
