@@ -126,12 +126,6 @@ app.post("/api/suggestions", async (req, res) => {
   res.json(newSuggestion);
 });
 
-//Delete user
-// app.delete("/api/suggestions", async (req, res) => {
-//   let id = req.body.id;
-//   suggestionDB.deleteSuggestion(id);
-// });
-
 //regitering new user
 app.post("/api/users", async (req, res) => {
   console.log("!!!!!!!!", req.body);
