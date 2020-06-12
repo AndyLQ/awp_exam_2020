@@ -7,9 +7,8 @@ class Suggestion extends Component {
     const suggestionId = this.props.getSuggestion(this.props.id);
     this.props.addSignature(newSignature, suggestionId._id);
   };
-  //TODO:This should have a state, where it gets one suggestion with the id of whatever the path has
+
   render() {
-    // this.props.getSuggestions();
     const suggestion = this.props.getSuggestion(this.props.id);
 
     let content = (
@@ -40,7 +39,7 @@ class Suggestion extends Component {
         <>
           <div className="container">
             <h3>{suggestion.content}</h3>
-            <h6>- {suggestion.body}</h6>
+            <h6>{suggestion.body}</h6>
             <br />
             <h6 className="grey-text text-darken-2">
               Uploaded by: {suggestion.uploadUser} - {suggestion.date}
@@ -82,9 +81,7 @@ class Suggestion extends Component {
         </>
       );
     }
-    // suggestion.signatures.length == 0
-    //   ? console.log("Yes man")
-    //   : return content
+
     return content;
   }
 }

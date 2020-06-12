@@ -28,8 +28,6 @@ class AddSignature extends Component {
       return;
     } else {
       const signName = localStorage.getItem("username");
-      console.log(signName);
-      console.log(this.state);
       this.props.addSignature(signName);
       this.setState({
         fullname: "",

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import AuthService from "./AuthService";
 
 class Login extends Component {
   state = {
@@ -12,15 +11,6 @@ class Login extends Component {
     console.log("You logged with username:", this.state.username);
     console.log("You logged with pasword:", this.state.password);
     this.props.login(this.state.username, this.state.password);
-    this.setFullname();
-  };
-
-  setFullname = () => {
-    const uName = this.state.username;
-    const fName = "JOHN";
-    //I want the username of the user
-    //with that imma find the name
-    //and that, im gonna store in the local storage
   };
 
   handleChange = (e) => {

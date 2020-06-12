@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
 
 class Db {
   constructor(mongoose) {
@@ -25,6 +26,18 @@ class Db {
       admin: Boolean,
       hash: String,
     });
+
+    userSchema.pre("save", function (next) {
+      if (!this.isModified("password")) {
+        return next();
+      }
+      this.password = bcrypt.hashSync(this.password, 10);
+      next();
+    });
+
+    userSchema.methods.comparePassword = function (plaintext, callback) {
+      return callback(null, bcrypt.compareSync(plaintext, this.password));
+    };
 
     this.userModel = mongoose.model("user", userSchema);
   }
@@ -191,15 +204,6 @@ class Db {
         hash: "",
       });
 
-      let hashedPassword = await new Promise((resolve, reject) => {
-        bcrypt.hash(user1.password, 10, function (err, hash) {
-          if (err) reject(err);
-          else resolve(hash);
-        });
-      });
-      user1.hash = hashedPassword;
-      user1.password = "hidden";
-
       promises.push(user1.save());
 
       let user2 = new this.userModel({
@@ -209,15 +213,6 @@ class Db {
         dateCreated: "11. June 2020",
         admin: false,
       });
-
-      hashedPassword = await new Promise((resolve, reject) => {
-        bcrypt.hash(user2.password, 10, function (err, hash) {
-          if (err) reject(err);
-          else resolve(hash);
-        });
-      });
-      user2.hash = hashedPassword;
-      user2.password = "hidden";
 
       promises.push(user2.save());
 
@@ -229,15 +224,6 @@ class Db {
         admin: false,
       });
 
-      hashedPassword = await new Promise((resolve, reject) => {
-        bcrypt.hash(user3.password, 10, function (err, hash) {
-          if (err) reject(err);
-          else resolve(hash);
-        });
-      });
-      user3.hash = hashedPassword;
-      user3.password = "hidden";
-
       promises.push(user3.save());
 
       let user4 = new this.userModel({
@@ -247,15 +233,6 @@ class Db {
         dateCreated: "11. June 2020",
         admin: true,
       });
-
-      hashedPassword = await new Promise((resolve, reject) => {
-        bcrypt.hash(user4.password, 10, function (err, hash) {
-          if (err) reject(err);
-          else resolve(hash);
-        });
-      });
-      user4.hash = hashedPassword;
-      user4.password = "hidden";
 
       promises.push(user4.save());
     }

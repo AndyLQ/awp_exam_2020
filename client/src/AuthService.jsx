@@ -50,6 +50,7 @@ class AuthService {
     localStorage.removeItem("fullname");
     localStorage.removeItem("id");
     localStorage.removeItem("userCreateDate");
+    localStorage.removeItem("admin");
   }
 
   fetch(url, options) {
