@@ -23,7 +23,7 @@ class Dashboard extends Component {
           <br />
           <button className="btn yellow darken-2">
             <i class="material-icons left">delete_forever</i>
-            DELETE USER
+            DELETE SUGGESTION
           </button>
         </div>
       </div>
