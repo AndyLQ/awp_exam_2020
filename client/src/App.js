@@ -41,7 +41,6 @@ class App extends Component {
       const resp = await this.Auth.login(username, password);
       console.log("Authentication:", resp.msg);
       alert("Welcome " + this.Auth.getUsername() + " - Good to see you!");
-      // navigate("/");
       window.location = "/";
       this.getSuggestions();
     } catch (error) {
