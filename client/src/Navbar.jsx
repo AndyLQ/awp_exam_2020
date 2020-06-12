@@ -17,7 +17,7 @@ class Navbar extends Component {
       <nav className="nav-wrapper yellow darken-3">
         <div className="container">
           <Link to="/" className="brand-logo">
-            WhatOnYourMind
+            WhatsOnYourMind
           </Link>
           <ul className="right">
             <li>
