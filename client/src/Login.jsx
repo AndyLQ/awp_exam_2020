@@ -7,12 +7,12 @@ class Login extends Component {
     password: "",
   };
 
-  handleLogin = (e) => {
-    e.preventDefault();
+  handleLogin = () => {
+    //e.preventDefault();
     console.log("You logged with username:", this.state.username);
     console.log("You logged with password:", this.state.password);
     this.props.login(this.state.username, this.state.password);
-    window.location = "/";
+    // window.location = "/";
   };
 
   handleChange = (e) => {
