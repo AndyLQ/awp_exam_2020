@@ -186,6 +186,7 @@ class App extends Component {
             path="/register"
             registerUser={this.registerUser}
             getUsers={this.getUsers}
+            users={this.state.users}
           ></Register>
         </Router>
       </>
