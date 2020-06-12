@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "(cd server && node app.js) & cd client && npm start",
+    "start": "cd server && node app.js",
     "dev": "cd client && npm start",
     "test": "cd client && npm test",
     "preinstall": "cd server && npm install",
