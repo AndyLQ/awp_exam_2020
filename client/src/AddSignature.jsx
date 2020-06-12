@@ -27,8 +27,9 @@ class AddSignature extends Component {
       });
       return;
     } else {
-      const signName = localStorage.getItem("username");
-      this.props.addSignature(signName);
+      const name = localStorage.getItem("username");
+      const fullname = localStorage.getItem("fullname");
+      this.props.addSignature(name, fullname);
       this.setState({
         fullname: "",
       });
