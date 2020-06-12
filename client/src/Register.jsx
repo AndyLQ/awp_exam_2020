@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { navigate, useParams } from "@reach/router";
 
 class Register extends Component {
   state = {

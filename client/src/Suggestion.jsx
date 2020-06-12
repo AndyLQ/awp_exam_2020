@@ -27,9 +27,8 @@ class Suggestion extends Component {
           {suggestion.signatures.map((signature) => (
             <li className="collection-item" key={signature.name}>
               {signature.fullname}
-
               {localStorage.getItem("admin") === "true" ? (
-                <span> - {signature.name}</span>
+                <span className="grey-text"> - Username: {signature.name}</span>
               ) : null}
 
               <span className="right">{signature.date}</span>

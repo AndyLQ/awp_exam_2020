@@ -8,6 +8,7 @@ import Login from "./Login";
 import AuthService from "./AuthService";
 import User from "./User";
 import Register from "./Register";
+import Dashboard from "./Dashboard";
 
 class App extends Component {
   API_URL = process.env.REACT_APP_API_URL;
@@ -40,7 +41,8 @@ class App extends Component {
       const resp = await this.Auth.login(username, password);
       console.log("Authentication:", resp.msg);
       alert("Welcome " + this.Auth.getUsername() + " - Good to see you!");
-      navigate("/");
+      // navigate("/");
+      window.location = "/";
       this.getSuggestions();
     } catch (error) {
       console.log("Login", error);
@@ -144,7 +146,6 @@ class App extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("token"),
       },
       body: JSON.stringify({
         fullname: fullname,
@@ -189,6 +190,7 @@ class App extends Component {
             getUsers={this.getUsers}
             users={this.state.users}
           ></Register>
+          <Dashboard path="/dashboard" />
         </Router>
       </>
     );

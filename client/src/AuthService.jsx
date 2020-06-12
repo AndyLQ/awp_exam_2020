@@ -26,6 +26,14 @@ class AuthService {
     return this.getToken() !== null;
   }
 
+  isAdmin() {
+    return this.getAdmin() !== false;
+  }
+
+  getAdmin() {
+    return localStorage.getItem("admin");
+  }
+
   setToken(token) {
     console.log("Token passed to localStorage");
     localStorage.setItem("token", token);

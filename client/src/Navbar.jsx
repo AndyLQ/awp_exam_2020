@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
+import AuthService from "./AuthService";
 
 class Navbar extends Component {
-  state = {
-    username: "",
-    user: "",
-  };
+  constructor(props) {
+    super(props);
+    this.Auth = new AuthService(`${this.API_URL}/users/authenticate`);
+    this.state = {
+      username: [],
+      user: [],
+    };
+  }
 
   render() {
     return (
@@ -28,6 +33,12 @@ class Navbar extends Component {
             {this.props.isloggedContent ? (
               <li>
                 <Link to="/user">Profile</Link>
+              </li>
+            ) : null}
+
+            {localStorage.getItem("admin") === "true" ? (
+              <li>
+                <Link to="/dashboard">Dashboard</Link>
               </li>
             ) : null}
 
