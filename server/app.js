@@ -113,7 +113,6 @@ app.get("/api/suggestions/:id", async (req, res) => {
 //Add new suggestion
 app.post("/api/suggestions", async (req, res) => {
   const postDate = suggestionDB.getToday();
-  console.log("This is how it should look: ", req);
 
   let suggestion = {
     content: req.body.content,

@@ -8,7 +8,7 @@ class AddSuggestions extends Component {
   };
 
   componentDidMount() {
-    const user = localStorage.getItem("username");
+    const user = localStorage.getItem("fullname");
     this.setState({
       content: "",
       body: "",

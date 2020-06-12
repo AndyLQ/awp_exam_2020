@@ -85,7 +85,6 @@ class App extends Component {
   }
 
   getLoggedUser() {
-    console.log("JOHHNYYYYYY ", this.state.users);
     if (this.state.users.length !== 0) {
       const loggedUser = localStorage.getItem("username");
       const newUsers = this.state.users.filter(
