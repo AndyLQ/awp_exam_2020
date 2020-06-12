@@ -15,7 +15,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.Auth = new AuthService(`${this.API_URL}/users/authenticate`);
+    this.Auth = new AuthService("api/users/authenticate");
     this.state = {
       suggestions: [],
       users: [],
@@ -73,7 +73,7 @@ class App extends Component {
   }
 
   async getUsers() {
-    let url = `${this.API_URL}/users`;
+    let url = "/api/users";
     let result = await fetch(url);
     let json = await result.json();
     this.setState({
