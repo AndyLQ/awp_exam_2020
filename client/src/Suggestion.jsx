@@ -10,8 +10,6 @@ class Suggestion extends Component {
 
   render() {
     const suggestion = this.props.getSuggestion(this.props.id);
-    console.log(suggestion);
-    console.log(suggestion.signatures);
 
     let content = (
       <div className="container">
