@@ -15,7 +15,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.Auth = new AuthService("api/users/authenticate");
+    this.Auth = new AuthService(`${this.API_URL}/users/authenticate`);
     this.state = {
       suggestions: [],
       users: [],
@@ -41,6 +41,7 @@ class App extends Component {
       const resp = await this.Auth.login(username, password);
       console.log("Authentication:", resp.msg);
       alert("Welcome " + this.Auth.getUsername() + " - Good to see you!");
+      // navigate("/");
       window.location = "/";
       this.getSuggestions();
     } catch (error) {
@@ -73,7 +74,7 @@ class App extends Component {
   }
 
   async getUsers() {
-    let url = "/api/users";
+    let url = `${this.API_URL}/users`;
     let result = await fetch(url);
     let json = await result.json();
     this.setState({
@@ -190,11 +191,7 @@ class App extends Component {
             getUsers={this.getUsers}
             users={this.state.users}
           ></Register>
-          <Dashboard
-            path="/dashboard"
-            suggestions={this.state.suggestions}
-            users={this.state.users}
-          />
+          <Dashboard path="/dashboard" />
         </Router>
       </>
     );
