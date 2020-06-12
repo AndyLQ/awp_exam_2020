@@ -7,7 +7,6 @@ const path = require("path");
 const checkJwt = require("express-jwt");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const router = express.Router();
 
 /**** Configuration ****/
 const port = process.env.PORT || 8080;
@@ -45,26 +44,6 @@ app.use(checkJwt({ secret: secret }).unless({ path: openPaths }));
 /**** Database ****/
 const suggestionDB = require("./suggestion_db")(mongoose);
 
-//This code is used for hashing passwords
-
-// users.forEach(async (user) => {
-//   const hashedPassword = await new Promise((resolve, reject) => {
-//     console.log(user.password);
-//     bcrypt.hash(user.password, 10, function (err, hash) {
-//       if (err) reject(err);
-//       else resolve(hash);
-//     });
-//   });
-
-//   // The hash has been made, and is stored on the user object.
-//   user.hash = hashedPassword;
-
-//   // Let's remove the clear text password (it shouldn't be there in the first place)
-//   delete user.password;
-//   console.log(`Hash generated for ${user.username}:`, user); // Logging for debugging purposes
-//   console.log("Users!!!: ", users);
-// });
-
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
     // If the user didn't authorize correctly
@@ -94,7 +73,7 @@ app.post("/api/users/authenticate", async (req, res) => {
   const user = users.find((user) => user.username === username);
   if (user) {
     // If the user is found
-    bcrypt.compare(password, user.hash, (err, result) => {
+    bcrypt.compare(password, user.password, (err, result) => {
       if (result) {
         // If the password matched
         const payload = { username: username };

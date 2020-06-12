@@ -101,6 +101,8 @@ class App extends Component {
     localStorage.setItem("id", idUser);
     const dateUser = user.dateCreated;
     localStorage.setItem("userCreateDate", dateUser);
+    const isAdmin = user.admin;
+    localStorage.setItem("admin", isAdmin);
   }
 
   async addSignature(newSignature, suggestionId) {
