@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Suggestions from "./Suggestions";
 
 class Dashboard extends Component {
   state = {};
