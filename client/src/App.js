@@ -81,11 +81,11 @@ class App extends Component {
   }
 
   getSuggestion(id) {
+    console.log(this.state.suggestions);
     return this.state.suggestions.find((suggestion) => suggestion._id === id);
   }
 
   getLoggedUser() {
-    console.log("JOHHNYYYYYY ", this.state.users);
     if (this.state.users.length !== 0) {
       const loggedUser = localStorage.getItem("username");
       const newUsers = this.state.users.filter(
@@ -107,8 +107,8 @@ class App extends Component {
     localStorage.setItem("admin", isAdmin);
   }
 
-  async addSignature(newSignature, suggestionId) {
-    console.log(newSignature);
+  async addSignature(name, fullname, suggestionId) {
+    console.log(name, fullname);
     await fetch(`/api/suggestions/${suggestionId}/signatures`, {
       method: "POST",
       headers: {
@@ -116,7 +116,8 @@ class App extends Component {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
       body: JSON.stringify({
-        newSignature: newSignature,
+        name: name,
+        fullname: fullname,
       }),
     });
     this.getSuggestions();
@@ -133,6 +134,7 @@ class App extends Component {
         content: suggestion.content,
         body: suggestion.body,
         uploadUser: suggestion.uploadUser,
+        uploadFullname: localStorage.getItem("fullname"),
       }),
     });
   }

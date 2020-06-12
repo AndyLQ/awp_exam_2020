@@ -3,13 +3,15 @@ import { Link } from "@reach/router";
 import AddSignature from "./AddSignature";
 
 class Suggestion extends Component {
-  addSignature = (newSignature) => {
+  addSignature = (name, fullname) => {
     const suggestionId = this.props.getSuggestion(this.props.id);
-    this.props.addSignature(newSignature, suggestionId._id);
+    this.props.addSignature(name, fullname, suggestionId._id);
   };
 
   render() {
     const suggestion = this.props.getSuggestion(this.props.id);
+    console.log(suggestion);
+    console.log(suggestion.signatures);
 
     let content = (
       <div className="container">
@@ -26,7 +28,12 @@ class Suggestion extends Component {
         <ul className="collection">
           {suggestion.signatures.map((signature) => (
             <li className="collection-item" key={signature.name}>
-              {signature.name}
+              {signature.fullname}
+
+              {localStorage.getItem("admin") === "true" ? (
+                <span> - {signature.name}</span>
+              ) : null}
+
               <span className="right">{signature.date}</span>
             </li>
           ))}

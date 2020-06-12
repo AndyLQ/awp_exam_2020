@@ -8,10 +8,12 @@ class Db {
       body: String,
       date: String,
       uploadUser: String,
+      uploadFullname: String,
       signatures: [
         {
           name: String,
           date: String,
+          fullname: String,
         },
       ],
     });
@@ -162,10 +164,15 @@ class Db {
         body:
           "If we all would donate 5 Dollars to funds that needed it, more problems would be solved all over the world in no time!",
         date: "9. April 2020",
-        uploadUser: "The Queen of England",
+        uploadUser: "TheRealKing",
+        uploadFullname: "The Queen of England",
         signatures: [
-          { name: "Amnesty", date: "13. December 2019" },
-          { name: "Red barnet", date: "10. April 2020" },
+          {
+            name: "theRealAmnesty",
+            date: "13. December 2019",
+            fullname: "Amnesty",
+          },
+          { name: "KidSaver", date: "10. April 2020", fullname: "Red Barnet" },
         ],
       });
       promises.push(suggestion1.save());
@@ -175,8 +182,15 @@ class Db {
         body:
           "It would make everything easier! Imagine that everyone spoke the same language perfectly all over the world. Also we should drive in the right side. All of us.",
         date: "20. February 2020",
-        uploadUser: "European Union",
-        signatures: [{ name: "Dubai", date: "28. February 2020" }],
+        uploadUser: "EU",
+        uploadFullname: "European Union",
+        signatures: [
+          {
+            name: "theRichPeople",
+            date: "28. February 2020",
+            fullname: "Dubai",
+          },
+        ],
       });
       promises.push(suggestion2.save());
 
@@ -185,11 +199,20 @@ class Db {
         body:
           "If we all stayed home, isolated, for one full month, the world would get rid of Covid-19/Corona. But it would also destroy the flu and other influenza. Think about it as having bad wifi at home and restarting your router to fix it. ",
         date: "13. August 2019",
-        uploadUser: "Todd Dillerson",
+        uploadUser: "TyDollarsign",
+        uploadFullname: "Todd Dillerson",
         signatures: [
-          { name: "Trick2g", date: "2. September 2019" },
-          { name: "Welyn", date: "1. January 2020" },
-          { name: "Blooprint", date: "13. January 2020" },
+          {
+            name: "Trick2g",
+            date: "2. September 2019",
+            fullname: "Red Micheal Joe",
+          },
+          { name: "Welyn", date: "1. January 2020", fullname: "Joey Jackson" },
+          {
+            name: "Blooprint",
+            date: "13. January 2020",
+            fullname: "Daniel Masterson",
+          },
         ],
       });
       promises.push(suggestion3.save());

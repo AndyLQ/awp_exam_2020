@@ -113,13 +113,13 @@ app.get("/api/suggestions/:id", async (req, res) => {
 //Add new suggestion
 app.post("/api/suggestions", async (req, res) => {
   const postDate = suggestionDB.getToday();
-  console.log("This is how it should look: ", req);
 
   let suggestion = {
     content: req.body.content,
     body: req.body.body,
     date: postDate,
     uploadUser: req.body.uploadUser,
+    uploadFullname: req.body.uploadFullname,
   };
 
   const newSuggestion = await suggestionDB.createSuggestion(suggestion);
@@ -147,11 +147,12 @@ app.post("/api/users", async (req, res) => {
 //Add new Signature to a suggestion
 app.post("/api/suggestions/:id/signatures", async (req, res) => {
   const id = req.params.id;
-  const signature = req.body.newSignature;
+  const name = req.body.name;
+  const fullname = req.body.fullname;
   const postDate = suggestionDB.getToday();
   console.log("The date of the post is ", postDate);
 
-  const newSignature = { name: signature, date: postDate };
+  const newSignature = { name: name, date: postDate, fullname: fullname };
   const updatedSuggestion = await suggestionDB.addSignature(id, newSignature);
   res.json(updatedSuggestion);
 });
