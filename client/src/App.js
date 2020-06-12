@@ -15,7 +15,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.Auth = new AuthService(`${this.API_URL}/users/authenticate`);
+    this.Auth = new AuthService(`${this.API_URL}`);
     this.state = {
       suggestions: [],
       users: [],
@@ -37,6 +37,7 @@ class App extends Component {
   }
 
   async login(username, password) {
+    console.log();
     try {
       const resp = await this.Auth.login(username, password);
       console.log("Authentication:", resp.msg);
