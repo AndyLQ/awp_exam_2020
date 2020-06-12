@@ -114,6 +114,16 @@ class Db {
     }
   }
 
+  // async deleteSuggestion(id) {
+  //   try {
+  //     let suggestion = await this.suggestionModel.findById(id);
+  //     return await suggestion.remove();
+  //   } catch (error) {
+  //     console.error("deleteSuggestion:", error.message);
+  //     return {};
+  //   }
+  // }
+
   async createSuggestion(newSuggestion) {
     try {
       let suggestion = new this.suggestionModel(newSuggestion);

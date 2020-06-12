@@ -126,6 +126,12 @@ app.post("/api/suggestions", async (req, res) => {
   res.json(newSuggestion);
 });
 
+//Delete user
+// app.delete("/api/suggestions", async (req, res) => {
+//   let id = req.body.id;
+//   suggestionDB.deleteSuggestion(id);
+// });
+
 //regitering new user
 app.post("/api/users", async (req, res) => {
   console.log("!!!!!!!!", req.body);
@@ -160,22 +166,6 @@ app.post("/api/suggestions/:id/signatures", async (req, res) => {
 app.get("*", (req, res) =>
   res.sendFile(path.resolve("..", "client", "build", "index.html"))
 );
-
-// Routes for users
-
-//Adding a user - Does not work yet
-app.post("/", (req, res) => {
-  // TODO: Implement user account creation
-  res.status(501).json({ msg: "create new user not implemented" });
-});
-
-//Changing a user - Does not work yet
-app.put("/", (req, res) => {
-  // TODO: Implement user update (change password, etc).
-  res.status(501).json({ msg: "update user not implemented" });
-});
-
-// This route takes a username and a password and create an auth token
 
 const url = process.env.MONGO_URL || "mongodb://localhost/suggestions_db";
 

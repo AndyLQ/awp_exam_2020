@@ -191,7 +191,11 @@ class App extends Component {
             getUsers={this.getUsers}
             users={this.state.users}
           ></Register>
-          <Dashboard path="/dashboard" />
+          <Dashboard
+            path="/dashboard"
+            suggestions={this.state.suggestions}
+            users={this.state.users}
+          />
         </Router>
       </>
     );
