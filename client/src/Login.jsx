@@ -8,11 +8,10 @@ class Login extends Component {
   };
 
   handleLogin = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     console.log("You logged with username:", this.state.username);
     console.log("You logged with password:", this.state.password);
     this.props.login(this.state.username, this.state.password);
-    // this.props.getLoggedUser();
   };
 
   handleChange = (e) => {
