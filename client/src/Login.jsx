@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "@reach/router";
 
 class Login extends Component {
   state = {
@@ -9,8 +10,9 @@ class Login extends Component {
   handleLogin = (e) => {
     e.preventDefault();
     console.log("You logged with username:", this.state.username);
-    console.log("You logged with pasword:", this.state.password);
+    console.log("You logged with password:", this.state.password);
     this.props.login(this.state.username, this.state.password);
+    // this.props.getLoggedUser();
   };
 
   handleChange = (e) => {
@@ -40,6 +42,11 @@ class Login extends Component {
             <i class="material-icons left">fingerprint</i>Login
           </button>
         </form>
+        <br />
+        <h5>No account?</h5>
+        <Link to="/register">
+          <button className="btn yellow darken-2">REGISTER NEW ACCOUNT</button>
+        </Link>
       </div>
     );
   }

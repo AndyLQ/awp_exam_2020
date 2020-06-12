@@ -122,6 +122,16 @@ class Db {
     }
   }
 
+  async registerUser(newUser) {
+    try {
+      let user = new this.userModel(newUser);
+      return await user.save();
+    } catch (error) {
+      console.error("registerUser: ", error.message);
+      return {};
+    }
+  }
+
   async crateUser(newUser) {
     try {
       let user = new this.userModel(newUser);
@@ -201,7 +211,6 @@ class Db {
         fullname: "Andy Le Quach",
         dateCreated: "10. June 2020",
         admin: true,
-        hash: "",
       });
 
       promises.push(user1.save());

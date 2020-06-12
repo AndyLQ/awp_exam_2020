@@ -17,24 +17,18 @@ app.use(morgan("combined"));
 app.use(express.static("../client/build"));
 
 const secret = process.env.SECRET || "avocado";
-//This says no access without token unless its a part of openPaths
 
 //These paths are accessable without a token
-
-// var regexLiteral = /\w*/;
-
 let openPaths = [
   { url: "/login", methods: ["GET"] },
+  { url: "/register", methods: ["GET", "POST"] },
   { url: "/user", methods: ["GET"] },
+  { url: "/users", methods: ["GET"] },
   { url: "/favicon.ico", methods: ["GET"] },
-  // { url: "/sw.js", methods: ["GET"] },
-  // { url: "/api/", methods: ["GET"] },
   { url: "/api/suggestions", methods: ["GET"] },
-  { url: "/api/users", methods: ["GET"] },
-  { url: "/api/users", methods: ["GET"] },
-  // { url: "/suggestions/" + regexLiteral, methods: ["GET"] },
-  // { url: "/api/suggestions/*", methods: ["GET"] },
-  // { url: "/api/suggestions/" + regex, methods: ["GET", "POST"] },
+  { url: "/api/register", methods: ["GET"] },
+  { url: "/api/users", methods: ["GET", "POST"] },
+  { url: "/api/user", methods: ["GET"] },
   { url: "/api/users/authenticate", methods: ["POST"] },
   { url: "/api/authenticate", methods: ["POST"] },
 ];
@@ -119,7 +113,7 @@ app.get("/api/suggestions/:id", async (req, res) => {
 //Add new suggestion
 app.post("/api/suggestions", async (req, res) => {
   const postDate = suggestionDB.getToday();
-  console.log("The date of the post is ", postDate);
+  console.log("This is how it should look: ", req);
 
   let suggestion = {
     content: req.body.content,
@@ -130,6 +124,24 @@ app.post("/api/suggestions", async (req, res) => {
 
   const newSuggestion = await suggestionDB.createSuggestion(suggestion);
   res.json(newSuggestion);
+});
+
+//regitering new user
+app.post("/api/users", async (req, res) => {
+  console.log("!!!!!!!!", req.body);
+  const postDate = suggestionDB.getToday();
+
+  let user = {
+    fullname: req.body.fullname.fullname,
+    username: req.body.fullname.username,
+    password: req.body.fullname.password,
+    dateCreated: postDate,
+    admin: false,
+  };
+  console.log("!!!!!!!! JUICER !!!!!!", user);
+
+  const newUser = await suggestionDB.registerUser(user);
+  res.json(newUser);
 });
 
 //Add new Signature to a suggestion

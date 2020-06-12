@@ -7,6 +7,7 @@ import AddSuggestion from "./AddSuggestion";
 import Login from "./Login";
 import AuthService from "./AuthService";
 import User from "./User";
+import Register from "./Register";
 
 class App extends Component {
   API_URL = process.env.REACT_APP_API_URL;
@@ -74,7 +75,7 @@ class App extends Component {
     let url = `${this.API_URL}/users`;
     let result = await fetch(url);
     let json = await result.json();
-    return this.setState({
+    this.setState({
       users: json,
     });
   }
@@ -84,6 +85,7 @@ class App extends Component {
   }
 
   getLoggedUser() {
+    console.log("JOHHNYYYYYY ", this.state.users);
     if (this.state.users.length !== 0) {
       const loggedUser = localStorage.getItem("username");
       const newUsers = this.state.users.filter(
@@ -135,6 +137,22 @@ class App extends Component {
     });
   }
 
+  async registerUser(fullname, username, password) {
+    console.log(fullname, username, password);
+    await fetch(`/api/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        fullname: fullname,
+        username: username,
+        password: password,
+      }),
+    });
+  }
+
   render() {
     // console.log(this.state);
     return (
@@ -161,8 +179,14 @@ class App extends Component {
           <Login
             path="/login"
             login={(username, password) => this.login(username, password)}
+            getLoggedUser={this.getLoggedUser}
           />
           <User path="/user"></User>
+          <Register
+            path="/register"
+            registerUser={this.registerUser}
+            getUsers={this.getUsers}
+          ></Register>
         </Router>
       </>
     );
