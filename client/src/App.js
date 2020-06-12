@@ -81,7 +81,6 @@ class App extends Component {
   }
 
   getSuggestion(id) {
-    console.log(this.state.suggestions);
     return this.state.suggestions.find((suggestion) => suggestion._id === id);
   }
 
