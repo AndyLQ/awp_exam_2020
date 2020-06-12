@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { navigate } from "@reach/router";
+import { navigate, useParams } from "@reach/router";
 
 class Register extends Component {
   state = {
@@ -7,16 +7,25 @@ class Register extends Component {
     username: "",
     password: "",
   };
-  //THE LOGIN METHOD
-  //TODO LOOK IF USERNAME ALREADY EXISTS
 
   handleRegister = (e) => {
     e.preventDefault();
-    this.props.registerUser(this.state);
-    console.log("You registerd with fullname: ", this.state.fullname);
-    console.log("You regitered with username: ", this.state.username);
-    console.log("You registerd with password: ", this.state.password);
-    window.location = "/login";
+    const users = this.props.users.filter(
+      (user) => user.username === this.state.username
+    );
+
+    if (users.length !== 0) {
+      alert("Username is taken, choose a new one");
+      this.setState({
+        username: "",
+      });
+    } else {
+      this.props.registerUser(this.state);
+      console.log("You registerd with fullname: ", this.state.fullname);
+      console.log("You regitered with username: ", this.state.username);
+      console.log("You registerd with password: ", this.state.password);
+      window.location = "/login";
+    }
   };
 
   handleChange = (e) => {
@@ -41,6 +50,7 @@ class Register extends Component {
             id="username"
             type="text"
             placeholder="Enter desired username"
+            value={this.state.username}
           ></input>
           <input
             onChange={this.handleChange}
